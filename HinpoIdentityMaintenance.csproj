@@ -114,7 +114,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Model\" />
     <Folder Include="Pages\Partial\" />
     <Folder Include="Pages\Shared\Components\" />
   </ItemGroup>

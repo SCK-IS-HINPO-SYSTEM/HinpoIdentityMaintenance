@@ -1,0 +1,164 @@
+﻿@page
+@model HinpoIdentityMaintenance.Pages.AspNetUserSearch.IndexModel
+@using HinpoIdentityMaintenance.Models.Model.AspNetUserSearchModel;
+
+@{
+    string submitFormname = "AspNetUserSearchForm";
+}
+AspNetUserSearchForm
+<div class="text-center">
+    <!-- コンテンツ本体 -->
+    <div class="container-fluid clearfix sckhinpo-body">
+        @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
+            <div class="container sckhinpo-panel mt-3">
+                <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
+                    <tbody>
+                        <tr>
+                            <!-- サイト -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>サイト<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
+                            <td class='sckhinpo-w-15'>
+                                <div class='input-group '>
+                                    <select class="form-control" data-val="true" data-val-required="&#x30B5;&#x30A4;&#x30C8;&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;"
+                                            id="m02Site_Id" name="m02Site.Id" onchange="onChangeSite(this.value)">
+                                        <option value="1">熊本TEC</option>
+                                        <option value="2">鹿児島TEC</option>
+                                        <option value="3">長崎TEC</option>                                        
+                                    </select>
+                                </div>
+                            </td>
+                            <!-- 部署 -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>カテゴリ<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
+                            <td class='sckhinpo-w-15' colspan="2">
+                                <div class='input-group '>
+                                    <select class="form-control" data-val="true" data-val-required="&#x30AB;&#x30C6;&#x30B4;&#x30EA;&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;"
+                                            id="m03Category_Id" name="m03Category.Id" onchange="onChangeCategory(this.value)">
+                                        <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                        <option value="101">&#x718A;&#x672C;IS</option>
+                                        <option value="102">&#x718A;&#x672C;IM</option>
+                                        <option value="104">&#x718A;&#x672C;IM_&#x8A66;&#x4F5C;</option>
+                                        <option value="105">&#x718A;&#x672C;IS_&#x8A66;&#x4F5C;</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <!-- GID -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>材料サプライヤー</th>
+                            <td class='sckhinpo-w-15' colspan="2">
+                                <div class='input-group'>
+                                    <select class="form-control"
+                                            id="m05Supplier_Id" name="m05Supplier.Id" onchange="onChangeSupplier(this.value)">
+                                        <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <!-- 氏名 -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>サイト<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
+                            <td class='sckhinpo-w-15'>
+                                <div class='input-group '>
+                                    <select class="form-control" data-val="true" data-val-required="&#x30B5;&#x30A4;&#x30C8;&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;"
+                                            id="m02Site_Id" name="m02Site.Id" onchange="onChangeSite(this.value)">
+                                        <option value="1">&#x9E7F;&#x5150;&#x5CF6;TEC</option>
+                                        <option value="2" selected="selected">&#x718A;&#x672C;TEC</option>
+                                        <option value="3">&#x9577;&#x5D0E;TEC</option>
+                                        <option value="11">SDT</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'></th>
+                            <td class='sckhinpo-w-15' colspan="2">
+                            </td>
+                            <!-- 検索ボタン -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'></th>
+                            <td class='sckhinpo-w-15' colspan="2">
+                                <div class='input-group'>
+                                    <select class="form-control"
+                                            id="m05Supplier_Id" name="m05Supplier.Id" onchange="onChangeSupplier(this.value)">
+                                        <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="container sckhinpo-panel mt-3">
+
+                <table class='table table-bordered table-sm'>
+                    <thead class='text-center font-weight-normal w-100 sckhinpo-vscroll-thead' style="margin-bottom: -2px;">
+                        <tr class='sckhinpo-table-header'>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set' colspan="2">検査項目</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>検査数</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>不良数</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>検査水準</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>不具合連絡書管理番号</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>ロットアウト連絡書管理番号</th>
+
+                            <!-- 品証受付画面用 -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class='w-100 sckhinpo-vscroll-tr sckhinpo-lightgray-background sckhinpo-table-inspec-border-down-set'>
+                            <td class='sckhinpo-w-10 sckhinpo-table-th sckhinpo-table-inspec-border-upper-set' style="vertical-align:middle;">
+                                <input checked="checked" data-val="true" data-val-required="IsSelected&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__IsSelected" name="PgModel.InspecPageIo.InspItems[0].IsSelected" type="checkbox" value="true" />
+                            </td>
+                            <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'><input autocomplete="off" class="form-control text-box single-line" data-val="true" data-val-required="InspName&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__InspName" name="PgModel.InspecPageIo.InspItems[0].InspName" readonly="readonly" style="text-align:left;" type="text" value="&#x5916;&#x89B3;" /></td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="InspNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__InspNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[0].InspNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="DefectNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__DefectNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[0].DefectNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <!-- 検査水準 -->
+                                <select autocomplete="off" class="form-control" data-val="true" data-val-required="InspLevel&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__InspLevel" name="PgModel.InspecPageIo.InspItems[0].InspLevel">
+                                    <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                    <option value="1">&#x30CA;&#x30DF;</option>
+                                    <option value="2">&#x30AD;&#x30C4;&#x30A4;</option>
+                                </select>
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="FRNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__FRNumber" name="PgModel.InspecPageIo.InspItems[0].FRNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="LotoutNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__LotoutNumber" name="PgModel.InspecPageIo.InspItems[0].LotoutNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <!-- 品証受付画面用 -->
+                        </tr>
+  
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mb-2"></div>
+            <div class="form-group input-group">
+
+                <!-- UAT-No45対応 20240422 -->
+                <table class="table table-borderless sckhinpo-margin-bottom-half sckhinpo-nopadding-lr" id="listFooter">
+                    <tr>
+                        <td class="sckhinpo-w-50 sckhinpo-text-left">
+                            <button type="button" class="col-4 btn btn-secondary btn-lg back-btn" onclick="onBackToSearch();">戻る</button>
+                        </td>
+                        <td class="sckhinpo-w-50 sckhinpo-text-right">
+                            <button type='button' class='col-4 btn btn-primary btn-lg' onclick="onConfirmDelete();">削除</button>
+                            &nbsp;
+                            <button type='submit' class='col-4 btn btn-primary btn-lg' onclick="onSubmit(5);">内容確認</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    // ページ読み込み時の実行処理
+    $(document).ready(function () {
+    });
+</script> 

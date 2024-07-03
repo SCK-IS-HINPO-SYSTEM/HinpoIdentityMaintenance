@@ -101,7 +101,8 @@ builder.Services.AddRazorPages()
     })
     .AddRazorPagesOptions(o => {
         //メインメニューをルートのデフォルトとして追加
-        o.Conventions.AddPageRoute("/Home/Index", "");
+        //o.Conventions.AddPageRoute("/AspNetUserRolesMnt/Index", "");
+        o.Conventions.AddPageRoute("/AspNetUserSearch/Index", "");
     });
 
 builder.Services.AddMvc()
