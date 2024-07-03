@@ -1,0 +1,23 @@
+@charset "shift-jis";
+/* サイトごとにパネルの色を上書きしたい場合に指定する		*/
+/* 基本色のままにしたければ、このファイルには何も書かない	*/
+/*
+.sckhinpo-panel {
+    margin: 0 auto 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: rgb(189, 183, 107);
+}
+.sckhinpo-panel-mini {
+    margin: 0 auto 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: rgb(189, 183, 107);
+}
+*/
+
+/* エラー箇所のコントロールの色付け*/
+/*.input-validation-error {
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}*/

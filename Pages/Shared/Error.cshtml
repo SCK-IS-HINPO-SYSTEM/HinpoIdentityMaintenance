@@ -1,0 +1,38 @@
+﻿@model HinpoIdentityMaintenance.Pages.ErrorModel
+@{
+    ViewData["Title"] = "Error";
+}
+<div class="text-center">
+    <!-- コンテンツ本体 -->
+    <div class="container-fluid clearfix sckhinpo-body">
+        <div class="container sckhinpo-panel mt-3">
+            <h1 class="text-danger">Error.</h1>
+            <h2 class="text-danger">An error occurred while processing your request.</h2>
+        </div>
+        <div class="container sckhinpo-panel mt-3">
+            <div align="left">
+                @Model.ExceptionMessage
+            </div>
+        </div>
+        <div class="container sckhinpo-panel mt-3">
+            <div class="form-group input-group">
+                <div class="col-4"></div>
+                <button type="button" class="col-4 btn btn-secondary btn-lg" onclick="onModoruSubmit();">@Localizer["Back"]</button>
+                <form asp-action="Create" id="form-button-submit">
+                </form>
+                <div class="col-1"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // --------------------------------------------------------------------------------
+    // 「戻る」ボタン押下時の処理
+    // --------------------------------------------------------------------------------
+    function onModoruSubmit() {
+        window.onbeforeunload = null;       // window.onbeforeunloadの抑制
+        $("#form-button-submit").attr('action', '/HinpoIdentityMaintenance');
+        $("#form-button-submit").submit();
+    }
+</script>

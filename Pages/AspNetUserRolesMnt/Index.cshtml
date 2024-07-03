@@ -1,0 +1,297 @@
+﻿@page
+@model HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt.IndexModel
+@{
+    string submitFormname = "AspNetUserRolesMntForm";
+
+}
+<div class="text-center">
+    <!-- コンテンツ本体 -->
+    <div class="container-fluid clearfix sckhinpo-body">
+        @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
+            <div class="container sckhinpo-panel mt-3">
+                <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
+                    <tbody>
+                        <tr>
+                            <!-- サイト -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>サイト<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
+                            <td class='sckhinpo-w-15'>
+                                <div class='input-group '>
+                                    <select class="form-control" data-val="true" data-val-required="&#x30B5;&#x30A4;&#x30C8;&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;"
+                                            id="m02Site_Id" name="m02Site.Id" onchange="onChangeSite(this.value)">
+                                        <option value="1">&#x9E7F;&#x5150;&#x5CF6;TEC</option>
+                                        <option value="2" selected="selected">&#x718A;&#x672C;TEC</option>
+                                        <option value="3">&#x9577;&#x5D0E;TEC</option>
+                                        <option value="11">SDT</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <!-- カテゴリ -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>カテゴリ<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
+                            <td class='sckhinpo-w-15' colspan="2">
+                                <div class='input-group '>
+                                    <select class="form-control" data-val="true" data-val-required="&#x30AB;&#x30C6;&#x30B4;&#x30EA;&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;"
+                                            id="m03Category_Id" name="m03Category.Id" onchange="onChangeCategory(this.value)">
+                                        <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                        <option value="101">&#x718A;&#x672C;IS</option>
+                                        <option value="102">&#x718A;&#x672C;IM</option>
+                                        <option value="104">&#x718A;&#x672C;IM_&#x8A66;&#x4F5C;</option>
+                                        <option value="105">&#x718A;&#x672C;IS_&#x8A66;&#x4F5C;</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <!-- 材料サプライヤ -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>材料サプライヤー</th>
+                            <td class='sckhinpo-w-15' colspan="2">
+                                <div class='input-group'>
+                                    <select class="form-control"
+                                            id="m05Supplier_Id" name="m05Supplier.Id" onchange="onChangeSupplier(this.value)">
+                                        <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!-- 製品名 -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>材料名</th>
+                            <td class='sckhinpo-w-15'>
+                                <div class='input-group'>
+                                    <input type="text" name="AmbiguousName" id="AmbiguousName" value="" class="form-control" autocomplete="off" />
+                                </div>
+                            </td>
+                            <!--開始日-->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>開始日<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
+                            <td class='sckhinpo-w-5 sckhinpo-vertical-middle ' style="border-right:none;">
+                                <div class='input-group'>
+                                    <input class="form-control text-box single-line"
+                                           data-val="true" data-val-required="&#x958B;&#x59CB;&#x65E5;&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="wSearchDate_fromDate" name="wSearchDate.fromDate"
+                                           type="date" value='2023-07-03'>
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-10' style="border-left:none;"></td>
+                            <!--終了日-->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>終了日<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
+                            <td class='sckhinpo-w-5 sckhinpo-vertical-middle' style="border-right:none;">
+                                <div class='input-group'>
+                                    <input class="form-control text-box single-line"
+                                           data-val="true" data-val-required="&#x7D42;&#x4E86;&#x65E5;&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="wSearchDate_toDate" name="wSearchDate.toDate"
+                                           type="date" value='2024-07-03'>
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-10' style="border-left:none;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class="container sckhinpo-panel mt-3">
+
+                <table class='table table-bordered table-sm'>
+                    <thead class='text-center font-weight-normal w-100 sckhinpo-vscroll-thead' style="margin-bottom: -2px;">
+                        <tr class='sckhinpo-table-header'>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set' colspan="2">検査項目</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>検査数</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>不良数</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>検査水準</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>不具合連絡書管理番号</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>ロットアウト連絡書管理番号</th>
+
+                            <!-- 品証受付画面用 -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class='w-100 sckhinpo-vscroll-tr sckhinpo-lightgray-background sckhinpo-table-inspec-border-down-set'>
+                            <td class='sckhinpo-w-10 sckhinpo-table-th sckhinpo-table-inspec-border-upper-set' style="vertical-align:middle;">
+                                <input checked="checked" data-val="true" data-val-required="IsSelected&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__IsSelected" name="PgModel.InspecPageIo.InspItems[0].IsSelected" type="checkbox" value="true" />
+                            </td>
+                            <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'><input autocomplete="off" class="form-control text-box single-line" data-val="true" data-val-required="InspName&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__InspName" name="PgModel.InspecPageIo.InspItems[0].InspName" readonly="readonly" style="text-align:left;" type="text" value="&#x5916;&#x89B3;" /></td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="InspNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__InspNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[0].InspNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="DefectNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__DefectNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[0].DefectNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <!-- 検査水準 -->
+                                <select autocomplete="off" class="form-control" data-val="true" data-val-required="InspLevel&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__InspLevel" name="PgModel.InspecPageIo.InspItems[0].InspLevel">
+                                    <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                    <option value="1">&#x30CA;&#x30DF;</option>
+                                    <option value="2">&#x30AD;&#x30C4;&#x30A4;</option>
+                                </select>
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="FRNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__FRNumber" name="PgModel.InspecPageIo.InspItems[0].FRNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="LotoutNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__LotoutNumber" name="PgModel.InspecPageIo.InspItems[0].LotoutNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <!-- 品証受付画面用 -->
+                            <input type="hidden" data-val="true" data-val-required="ItemNo&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__ItemNo" name="PgModel.InspecPageIo.InspItems[0].ItemNo" value="1" />
+                            <input type="hidden" id="PgModel_InspecPageIo_InspItems_0__InspLevel" name="PgModel.InspecPageIo.InspItems[0].InspLevel" value="0" />
+                        </tr>
+                        <tr class='w-100 sckhinpo-vscroll-tr sckhinpo-lightgray-background sckhinpo-table-inspec-border-down-set'>
+                            <td class='sckhinpo-w-10 sckhinpo-table-th sckhinpo-table-inspec-border-upper-set' style="vertical-align:middle;">
+                                <input checked="checked" data-val="true" data-val-required="IsSelected&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_1__IsSelected" name="PgModel.InspecPageIo.InspItems[1].IsSelected" type="checkbox" value="true" />
+                            </td>
+                            <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'><input autocomplete="off" class="form-control text-box single-line" data-val="true" data-val-required="InspName&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_1__InspName" name="PgModel.InspecPageIo.InspItems[1].InspName" readonly="readonly" style="text-align:left;" type="text" value="&#x68B1;&#x5305;" /></td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="InspNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_1__InspNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[1].InspNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="DefectNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_1__DefectNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[1].DefectNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <!-- 検査水準 -->
+                                <select autocomplete="off" class="form-control" data-val="true" data-val-required="InspLevel&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_1__InspLevel" name="PgModel.InspecPageIo.InspItems[1].InspLevel">
+                                    <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                    <option value="1">&#x30CA;&#x30DF;</option>
+                                    <option value="2">&#x30AD;&#x30C4;&#x30A4;</option>
+                                </select>
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="FRNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_1__FRNumber" name="PgModel.InspecPageIo.InspItems[1].FRNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="LotoutNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_1__LotoutNumber" name="PgModel.InspecPageIo.InspItems[1].LotoutNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <!-- 品証受付画面用 -->
+                            <input type="hidden" data-val="true" data-val-required="ItemNo&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_1__ItemNo" name="PgModel.InspecPageIo.InspItems[1].ItemNo" value="2" />
+                            <input type="hidden" id="PgModel_InspecPageIo_InspItems_1__InspLevel" name="PgModel.InspecPageIo.InspItems[1].InspLevel" value="0" />
+                        </tr>
+                        <tr class='w-100 sckhinpo-vscroll-tr sckhinpo-lightgray-background sckhinpo-table-inspec-border-down-set'>
+                            <td class='sckhinpo-w-10 sckhinpo-table-th sckhinpo-table-inspec-border-upper-set' style="vertical-align:middle;">
+                                <input checked="checked" data-val="true" data-val-required="IsSelected&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_2__IsSelected" name="PgModel.InspecPageIo.InspItems[2].IsSelected" type="checkbox" value="true" />
+                            </td>
+                            <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'><input autocomplete="off" class="form-control text-box single-line" data-val="true" data-val-required="InspName&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_2__InspName" name="PgModel.InspecPageIo.InspItems[2].InspName" readonly="readonly" style="text-align:left;" type="text" value="&#x5BF8;&#x6CD5;" /></td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="InspNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_2__InspNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[2].InspNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="DefectNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_2__DefectNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[2].DefectNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <!-- 検査水準 -->
+                                <select autocomplete="off" class="form-control" data-val="true" data-val-required="InspLevel&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_2__InspLevel" name="PgModel.InspecPageIo.InspItems[2].InspLevel">
+                                    <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                    <option value="1">&#x30CA;&#x30DF;</option>
+                                    <option value="2">&#x30AD;&#x30C4;&#x30A4;</option>
+                                </select>
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="FRNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_2__FRNumber" name="PgModel.InspecPageIo.InspItems[2].FRNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="LotoutNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_2__LotoutNumber" name="PgModel.InspecPageIo.InspItems[2].LotoutNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <!-- 品証受付画面用 -->
+                            <input type="hidden" data-val="true" data-val-required="ItemNo&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_2__ItemNo" name="PgModel.InspecPageIo.InspItems[2].ItemNo" value="3" />
+                            <input type="hidden" id="PgModel_InspecPageIo_InspItems_2__InspLevel" name="PgModel.InspecPageIo.InspItems[2].InspLevel" value="0" />
+                        </tr>
+                        <tr class='w-100 sckhinpo-vscroll-tr sckhinpo-lightgray-background sckhinpo-table-inspec-border-down-set'>
+                            <td class='sckhinpo-w-10 sckhinpo-table-th sckhinpo-table-inspec-border-upper-set' style="vertical-align:middle;">
+                                <input checked="checked" data-val="true" data-val-required="IsSelected&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_3__IsSelected" name="PgModel.InspecPageIo.InspItems[3].IsSelected" type="checkbox" value="true" />
+                            </td>
+                            <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'><input autocomplete="off" class="form-control text-box single-line" data-val="true" data-val-required="InspName&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_3__InspName" name="PgModel.InspecPageIo.InspItems[3].InspName" readonly="readonly" style="text-align:left;" type="text" value="&#x6210;&#x7E3E;&#x66F8;" /></td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="InspNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_3__InspNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[3].InspNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="DefectNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_3__DefectNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[3].DefectNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <!-- 検査水準 -->
+                                <select autocomplete="off" class="form-control" data-val="true" data-val-required="InspLevel&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_3__InspLevel" name="PgModel.InspecPageIo.InspItems[3].InspLevel">
+                                    <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                    <option value="1">&#x30CA;&#x30DF;</option>
+                                    <option value="2">&#x30AD;&#x30C4;&#x30A4;</option>
+                                </select>
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="FRNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_3__FRNumber" name="PgModel.InspecPageIo.InspItems[3].FRNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="LotoutNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_3__LotoutNumber" name="PgModel.InspecPageIo.InspItems[3].LotoutNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <!-- 品証受付画面用 -->
+                            <input type="hidden" data-val="true" data-val-required="ItemNo&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_3__ItemNo" name="PgModel.InspecPageIo.InspItems[3].ItemNo" value="4" />
+                            <input type="hidden" id="PgModel_InspecPageIo_InspItems_3__InspLevel" name="PgModel.InspecPageIo.InspItems[3].InspLevel" value="0" />
+                        </tr>
+                        <tr class='w-100 sckhinpo-vscroll-tr sckhinpo-lightgray-background sckhinpo-table-inspec-border-down-set'>
+                            <td class='sckhinpo-w-10 sckhinpo-table-th sckhinpo-table-inspec-border-upper-set' style="vertical-align:middle;">
+                                <input checked="checked" data-val="true" data-val-required="IsSelected&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_4__IsSelected" name="PgModel.InspecPageIo.InspItems[4].IsSelected" type="checkbox" value="true" />
+                            </td>
+                            <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'><input autocomplete="off" class="form-control text-box single-line" data-val="true" data-val-required="InspName&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_4__InspName" name="PgModel.InspecPageIo.InspItems[4].InspName" readonly="readonly" style="text-align:left;" type="text" value="&#x305D;&#x306E;&#x4ED6;" /></td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="InspNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_4__InspNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[4].InspNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <div class="sckhinpo-numtype-style">
+                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="DefectNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_4__DefectNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[4].DefectNum" style="text-align:right !important;" type="number" value="0" />
+                                </div>
+                            </td>
+                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <!-- 検査水準 -->
+                                <select autocomplete="off" class="form-control" data-val="true" data-val-required="InspLevel&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_4__InspLevel" name="PgModel.InspecPageIo.InspItems[4].InspLevel">
+                                    <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                    <option value="1">&#x30CA;&#x30DF;</option>
+                                    <option value="2">&#x30AD;&#x30C4;&#x30A4;</option>
+                                </select>
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="FRNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_4__FRNumber" name="PgModel.InspecPageIo.InspItems[4].FRNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                <input class="form-control" data-val="true" data-val-required="LotoutNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_4__LotoutNumber" name="PgModel.InspecPageIo.InspItems[4].LotoutNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
+                            </td>
+                            <!-- 品証受付画面用 -->
+                            <input type="hidden" data-val="true" data-val-required="ItemNo&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_4__ItemNo" name="PgModel.InspecPageIo.InspItems[4].ItemNo" value="5" />
+                            <input type="hidden" id="PgModel_InspecPageIo_InspItems_4__InspLevel" name="PgModel.InspecPageIo.InspItems[4].InspLevel" value="0" />
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mb-2"></div>
+            <div class="form-group input-group">
+
+                <!-- UAT-No45対応 20240422 -->
+                <table class="table table-borderless sckhinpo-margin-bottom-half sckhinpo-nopadding-lr" id="listFooter">
+                    <tr>
+                        <td class="sckhinpo-w-50 sckhinpo-text-left">
+                            <button type="button" class="col-4 btn btn-secondary btn-lg back-btn" onclick="onBackToSearch();">戻る</button>
+                        </td>
+                        <td class="sckhinpo-w-50 sckhinpo-text-right">
+                            <button type='button' class='col-4 btn btn-primary btn-lg' onclick="onConfirmDelete();">削除</button>
+                            &nbsp;
+                            <button type='submit' class='col-4 btn btn-primary btn-lg' onclick="onSubmit(5);">内容確認</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    // ページ読み込み時の実行処理
+    $(document).ready(function () {
+    });
+</script> 

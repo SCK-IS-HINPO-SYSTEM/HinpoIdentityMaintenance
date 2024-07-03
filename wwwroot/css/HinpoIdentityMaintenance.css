@@ -1,0 +1,312 @@
+
+/*
+------------------------------------
+    CTの追加及び変更分
+    ※将来的にはhinpocommon.cssにまとめるかもしれません。
+--------------------------------------
+*/
+
+/* ヘッダとボディの間の隙間を上書き調整しました 迫 */
+.sckhinpo-body {
+    padding-top: calc( 0px + 1rem ) !important;
+    min-height: calc(80vh - 41px) !important;
+}
+
+/* 要素をブリンクにする */
+@keyframes sckhinpo-oqcdb-blink {
+    0%, 100% {opacity: 1;}
+    50% {opacity: 0.5;}
+}
+.sckhinpo-blinking {
+    animation-name: sckhinpo-oqcdb-blink;
+    animation-duration: 1.0s;
+    animation-iteration-count: infinite;
+}
+/* メニューフォントサイズ */
+.sckhinpo-menu-font-size {
+    font-size: 14px !important;
+}
+
+.sckhinpo-main-menu {
+    overflow-y: hidden !important;
+}
+
+.sckhinpo-header-user {
+    position: absolute;
+    right: 5%; /* loginの右側が開きすぎるので詰める fukuda */
+    font-size: 14px;
+}
+
+/*下記は共通の方に存在するのでコメントに変えておきます by fukuda */
+/*.sckhinpo-w-90 {
+    width: 90% !important;
+}*/
+
+.sckhinpo-ml-1 {
+    margin-left: 1% !important;
+}
+.sckhinpo-ml-2 {
+    margin-left: 2% !important;
+}
+
+/* ヘッダーユーザー名 */
+.sckhinpo-vertical-nopadding {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.sckhinpo-header-inline-middle {
+    padding-top: 11px !important; /* 36/2の上下に14/2で調整 */
+}
+
+.sckhinpo-header-login-info-area {
+    position: relative;
+    right: 30px; /* My設定ボタン追加時は変更すこと */
+    text-align: left;
+}
+
+.sckhinpo-hinpo-footer {
+    border-top: 1px solid #6c757d;
+}
+
+.sckhinpo-text-left {
+    text-align: left;
+}
+
+.sckhinpo-text-right {
+    text-align: right;
+}
+
+.sckhinpo-vertical-middle {
+    vertical-align: middle !important;
+}
+
+.sckhinpo-datebox-border {
+    border: 1px solid #ced4da !important;
+    border-radius: .25rem !important;
+}
+
+.sckhinpo-margin-bottom-half {
+    margin-bottom: 0.5rem;
+}
+
+.sckhinpo-select-radio {
+    vertical-align: middle !important;
+    transform: scale(1.0) !important;
+    margin: 0 !important;
+}
+
+/*
+------------------------------------
+    入力・参照画面共通
+------------------------------------
+*/
+select:disabled {
+    background-color: lightgray !important;
+}
+input:disabled {
+    background-color: lightgray !important;
+}
+textarea:disabled {
+    background-color: lightgray !important;
+}
+ 
+.sckhinpo-hinpo-white-space-normal {
+    white-space: normal;
+}
+/* tdを保護色にして見えないようにする */
+.sckhinpo-hinpo-td-protective-color {
+    background-color: #C8DCF5 !important;
+    border-color: #C8DCF5 !important;
+}
+/*  強制右寄せ 
+    現在のところ、読み取り専用時の、検査数と不良数 に適用*/
+div.sckhinpo-numtype-style input{
+    text-align: right;
+}
+/*  枠線下部のライン */
+.sckhinpo-table-border-down {
+    border-bottom: 2px solid #000000 !important;
+}
+/*  ヘッダ用の文字 */
+.sckhinpo-fw-blod {
+    font-weight: bold;
+}
+
+/* width %指定 */
+.sckhinpo-width-105p {
+    width: 105.2% !important;
+}
+
+/* width %指定 */
+.sckhinpo-width-140p {
+    width: 131.5% !important;
+}
+
+/* width %指定 */
+.sckhinpo-width-142p {
+    width: 142.1% !important;
+}
+/*
+------------------------------------
+    品証受付画面
+--------------------------------------
+*/
+/* 対策品チェック 依頼書管理番号のTD内を相対指定にする */
+.sckhinpo-inspec-row-custom-td {
+    position: relative;
+}
+/* 対策品チェック 依頼書管理番号のTD内のブロック指定 */
+.sckhinpo-inspec-row-custom-text-line {
+    display: block;
+}
+/* 対策品チェック 依頼書管理番号のTD内のスタイル指定 */
+.sckhinpo-inspec-row-custom-text-content {
+    display: inline-grid;
+}
+/* 対策品チェック 依頼書管理番号のTD内の横罫線を表示する */
+.sckhinpo-inspec-row-custom-horizontal-line {
+    height: 1px;
+    background-color: #dee2e6;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+/* 対策品チェック 依頼書管理番号のTD内の最後の行は横罫線を表示しない */
+.sckhinpo-inspec-row-custom-td
+.sckhinpo-inspec-row-custom-text-line:last-child
+.sckhinpo-inspec-row-custom-horizontal-line {
+    display: none;
+}
+.sckhinpo-table-inspec-border-upper-set {
+    border-top: 1px solid #7abaff !important;
+    border-right: 1px solid #7abaff !important;
+    border-left: 1px solid #7abaff !important;
+}
+.sckhinpo-table-inspec-border-down-set:last-child {
+    border-bottom: 1px solid #7abaff !important;
+}
+.sckhinpo-table-untreated-border-upper-set {
+    border-top: 2px solid #000000 !important;
+    border-right: 2px solid #000000 !important;
+    border-left: 2px solid #000000 !important;
+}
+
+.sckhinpo-table-untreated-border-down-set:last-child {
+    border-bottom: 2px solid #000000 !important;
+}
+/*
+------------------------------------
+    品証受付一覧
+------------------------------------
+*/
+/* 品証 受付一覧用のヘッダタイトル */
+.sckhinpo-table-header-custom {
+    background-color: #007bff !important;
+    color: #ffffff;
+    font-weight: bold;
+    height: 38px;
+}
+
+.sckhinpo-table-wrapper {
+    display: flex; /* フレックスボックスを使用してテーブルを横並びにする */
+    overflow-x: visible; /* 縦と横のスクロールバーを有効に */
+    align-items: stretch; /* 子要素の高さを揃える */
+}
+
+.sckhinpo-table-Recep-border-right {
+    border-right: 2px solid #000000 !important;
+}
+
+.sckhinpo-table-Recep-border-thin-right {
+    border-right: 1px solid #000000 !important;
+}
+
+.sckhinpo-table-Recep-border-left {
+    border-left: 2px solid #000000 !important;
+}
+
+.sckhinpo-table-Recep-border-thin-top {
+    border-top: 1px solid #000000 !important;
+}
+
+.sckhinpo-table-Recep-border-top {
+    border-top: 2px solid #000000 !important;
+}
+
+.sckhinpo-table-Recep-border-bottom {
+    border-bottom: 2px solid #000000 !important;
+}
+/* flexboxを使って ページ制御用のラベルを右寄せ*/
+.sckhinpo-pagination-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sckhinpo-Recep-decision-style {
+    padding: 0px;
+}
+
+.sckhinpo-table thead tr th {
+    background-color: #007bff !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    border-top:none !important;
+    border-bottom:none !important;
+}
+.sckhinpo-table tbody tr td {
+    background-color: #ffffff !important;
+    vertical-align: middle !important;
+}
+
+
+/*
+------------------------------------
+    不具合連絡書画面共通
+------------------------------------
+*/
+.sckhinpo-table-td-protective-color {
+    background-color: #C8DCF5 !important;
+    border-right: 1px rgb(200, 220, 245) !important;
+    border-top-color: rgb(200, 220, 245) !important; 
+    border-bottom-color: rgb(200, 220, 245) !important;
+    border-left-color: rgb(200, 220, 245) !important;
+}
+
+/*
+    折りたたみの見出し用のaタグ
+*/
+a.sckhinpo-link {
+    text-decoration: none !important;
+}
+a.sckhinpo-link:hover {
+    text-decoration: underline red !important;
+}
+
+/* 右枠線を背景色と同じにする */
+.sckhinpo-hinpo-td-protective-color-r {
+    background-color: #C8DCF5 !important;
+    border-right-color: #C8DCF5 !important;
+}
+/* 上枠線、右枠線を背景色と同じにする*/
+.sckhinpo-hinpo-td-protective-color-tr {
+    background-color: #C8DCF5 !important;
+    border-top-color: #C8DCF5 !important;
+    border-right-color: #C8DCF5 !important;
+}
+/* 上枠線、下枠線を背景色と同じにする*/
+.sckhinpo-hinpo-td-protective-color-tb {
+    background-color: #C8DCF5 !important;
+    border-top-color: #C8DCF5 !important;
+    border-bottom-color: #C8DCF5 !important;
+}
+/* ボタン行の左右のパディングをなくす対応 20240415 */
+.sckhinpo-nopadding-lr tr td {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+/* 20240418 */
+.sckhinpo-bottom-space-none {
+    padding-bottom: 0px !important;
+    margin-bottom:0px !important;
+}

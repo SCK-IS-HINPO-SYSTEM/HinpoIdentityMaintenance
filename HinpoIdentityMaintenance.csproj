@@ -1,0 +1,128 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName></SccProjectName>
+    <SccProvider></SccProvider>
+    <SccAuxPath></SccAuxPath>
+    <SccLocalPath></SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-HinpoIdentityMaintenance-75fbab6c-ea6b-4ed1-974c-70a36606c1a3</UserSecretsId>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-utilities.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.rtl.min.css.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.esm.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
+    <None Include="wwwroot\lib\bootstrap\LICENSE" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
+    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
+    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
+    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="ClosedXML" Version="0.102.2" />
+    <PackageReference Include="MailKit" Version="4.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="CommonLibrary">
+      <HintPath>..\..\..\HinpoLib\CommonLibrary\CommonLibrary\bin\Debug\net8.0\CommonLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonSendMail">
+      <HintPath>..\..\..\HinpoLib\CommonSendMail\CommonSendMail\bin\Debug\net8.0\CommonSendMail.dll</HintPath>
+    </Reference>
+    <Reference Include="CommonWebResources">
+      <HintPath>..\..\..\HinpoLib\CommonWebResources\CommonWebResources\bin\Debug\net8.0\CommonWebResources.dll</HintPath>
+    </Reference>
+    <Reference Include="HinpoCertBusinessLayer">
+      <HintPath>..\..\..\HinpoLib\HinpoCert\HinppoCertBusinessLayer\bin\Debug\net8.0\HinpoCertBusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="HinpoCertModels">
+      <HintPath>..\..\..\HinpoLib\HinpoCert\HinpoCertModels\bin\Debug\net8.0\HinpoCertModels.dll</HintPath>
+    </Reference>
+    <Reference Include="HinpoIdentityBusinessLayer">
+      <HintPath>..\..\..\HinpoLib\HinpoIdentity\HinpoIdentityBusinessLayer\bin\Debug\net8.0\HinpoIdentityBusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="HinpoIdentityModels">
+      <HintPath>..\..\..\HinpoLib\HinpoIdentity\HinpoIdentityModels\bin\Debug\net8.0\HinpoIdentityModels.dll</HintPath>
+    </Reference>
+    <Reference Include="HinpoMasterBusinessLayer">
+      <HintPath>..\..\..\HinpoLib\HinpoMaster\HinpoMasterBusinessLayer\bin\Debug\net8.0\HinpoMasterBusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="HinpoMasterModels">
+      <HintPath>..\..\..\HinpoLib\HinpoMaster\HinpoMasterModels\bin\Debug\net8.0\HinpoMasterModels.dll</HintPath>
+    </Reference>
+    <Reference Include="MailLogBusinessLayer">
+      <HintPath>..\..\..\HinpoLib\HinpoMailLog\MailLogBusinessLayer\bin\Debug\net8.0\MailLogBusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="WorkFlowModels">
+      <HintPath>..\..\HinpoWorkFlow\WorkFlowDbAccess\WorkFlowModels\bin\Debug\net8.0\WorkFlowModels.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Model\" />
+    <Folder Include="Pages\Partial\" />
+    <Folder Include="Pages\Shared\Components\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

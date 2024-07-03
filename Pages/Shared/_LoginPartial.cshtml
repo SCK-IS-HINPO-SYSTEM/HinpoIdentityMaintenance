@@ -1,0 +1,36 @@
+﻿@using CommonLibrary
+@using Microsoft.AspNetCore.Identity
+@using HinpoIdentityMaintenance.Data
+@using System.Text.Json.Serialization;
+@using System.Text.Json;
+@using Microsoft.AspNetCore.Http
+@using HinpoIdentityMaintenance.Common;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor Accessor
+@inject IConfiguration configuration
+
+@{
+    CommonLibrary.LoginUserInfo? loginUserInfo = null;
+    bool bLang = false;//デフォルト日本語
+}
+
+@if (SignInManager.IsSignedIn(User)) {
+    string jsonString = Utils.GetSession(Accessor, "LoginUserInfo");
+
+    if (jsonString != null) {
+        loginUserInfo = CommonFunctions.JsonParseUtil<CommonLibrary.LoginUserInfo>(jsonString);
+        bLang = loginUserInfo != null ? loginUserInfo.Lang : false;
+    } else {
+    }
+}
+
+<ul class="navbar-nav">
+    @if (loginUserInfo != null) {
+        <li class="nav-item d-inline sckhinpo-header-inline-middle">
+            <a class="nav-link text-dark d-inline d-inline-block sckhinpo-vertical-nopadding sckhinpo-header-login-info-area"
+               href=''>@loginUserInfo.SiteName @loginUserInfo.BusyoNameAbb @loginUserInfo.LastName @loginUserInfo.FirstName</a>
+        </li>
+    }
+</ul>

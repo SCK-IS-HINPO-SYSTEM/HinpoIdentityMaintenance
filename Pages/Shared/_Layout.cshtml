@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+
+@inject IConfiguration configuration
+
+@{
+    string? strCurPage = (string?)ViewData["HinpoIdentityMaintenancePage"];
+}
+
+<head>
+    <meta charset="utf-8" />
+    <!--meta name="viewport" content="width=device-width, initial-scale=1.0" /-->
+    <title>@ViewData["Title"] - SCK Quality Management</title>
+
+    <!-- ここから追加 -->
+    <meta http-equiv='content-language' content='ja'>
+    <meta name='google' content='notranslate' />
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no' />
+
+    <meta http-equiv='Pragma' content='no-cache'>
+    <meta http-equiv='Cache-Control' content='no-cache'>
+    <meta http-equiv='Expires' content='0'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <base href="/HinpoIdentityMaintenance/" />  <!--  これがないとBlazorが動かない （最後はスラッシュが必要） これ無いとblazor関連のjsが読み込めない -->
+    @if (System.Diagnostics.Debugger.IsAttached)
+    {
+        <link rel='stylesheet' href='http://localhost/hinpoCommon/css/site.css' asp-append-version="true">
+        <link rel='stylesheet' href='http://localhost/hinpoCommon/css/all.min.css'>
+        <link rel='stylesheet' href='http://localhost/hinpoCommon/lib/bootstrap/dist/css/bootstrap.min.css'>
+        <link rel='stylesheet' href='http://localhost/hinpoCommon/css/jquery-ui.min.css'>
+        <link rel='stylesheet' href='http://localhost/hinpoCommon/css/hinpocommon.css' asp-append-version="true" version="2023061301">
+    }
+    else
+    {
+        <link rel="stylesheet" href='/hinpoCommon/css/site.css' asp-append-version="true">
+        <link rel='stylesheet' href='/hinpoCommon/css/all.min.css'>
+        <link rel="stylesheet" href='/hinpoCommon/lib/bootstrap/dist/css/bootstrap.min.css'>
+        <link rel='stylesheet' href='/hinpoCommon/css/jquery-ui.min.css'>
+        <link rel='stylesheet' href='/hinpoCommon/css/hinpocommon.css' asp-append-version="true" version="2023061301">
+    }
+    
+    <link rel='stylesheet' href='~/css/sitecolor.css' asp-append-version="true">
+    <link rel='stylesheet' href='~/css/HinpoIdentityMaintenance.css' asp-append-version="true">
+
+    <!-- 注意！　bootstrap.jsが先に来るようにしないとダイヤログのXボタンが表示されない -->
+    @if (System.Diagnostics.Debugger.IsAttached)
+    {
+        <script type='text/javascript' src='http://localhost/hinpoCommon/lib/bootstrap/dist/js/bootstrap.bundle.min.js'></script>
+        <script type='text/javascript' src='http://localhost/hinpoCommon/lib/jquery/dist/jquery-3.3.1.min.js'></script>
+        <!-- ↓↓↓↓　モーダルダイヤログ使用の為に追加 ↓↓↓↓-->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- ↑↑↑↑　モーダルダイヤログ使用の為に追加 ↑↑↑↑-->
+        <script type='text/javascript' src='http://localhost/hinpoCommon/lib/jquery/dist/jquery-ui.min.js'></script>
+        <script type='text/javascript' src='http://localhost/hinpoCommon/lib/jquery/dist/jquery-ui-datepicker-ja.js'></script>
+        <script type='text/javascript' src='http://localhost/hinpoCommon/js/common.js' asp-append-version="true"></script>
+    }
+    else
+    {
+        <script type='text/javascript' src='/hinpoCommon/lib/bootstrap/dist/js/bootstrap.bundle.min.js'></script>
+        <script type='text/javascript' src='/hinpoCommon/lib/jquery/dist/jquery-3.3.1.min.js'></script>
+        <!-- ↓↓↓↓　モーダルダイヤログ使用の為に追加 ↓↓↓↓-->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- ↑↑↑↑　モーダルダイヤログ使用の為に追加 ↑↑↑↑-->
+        <script type='text/javascript' src='/hinpoCommon/lib/jquery/dist/jquery-ui.min.js'></script>
+        <script type='text/javascript' src='/hinpoCommon/lib/jquery/dist/jquery-ui-datepicker-ja.js'></script>
+        <script type='text/javascript' src='/hinpoCommon/js/common.js' asp-append-version="true"></script>
+    }
+
+    <!-- ↓↓↓↓　モーダルダイヤログ使用の為に追加 ↓↓↓↓-->
+    <script src="~/js/modal_dialog_show.js" asp-append-version="true"></script>
+    <!-- ↑↑↑↑　モーダルダイヤログ使用の為に追加 ↑↑↑↑-->
+    <!-- ↓↓↓↓　HinpoIdentityMaintenance共通ロジック追加 ↓↓↓↓-->
+    <script src="~/js/hinpo_iqc_common.js" asp-append-version="true"></script>
+    <script src="~/js/hinpo_iqc_config.js" asp-append-version="true"></script>
+    <!-- ↑↑↑↑　HinpoIdentityMaintenance共通ロジック追加 ↑↑↑↑-->
+
+    <link rel='icon' href='/favicon.ico' type='image/vnd.microsoft.icon'>
+    <link rel='shortcut icon' href='/favicon.ico' type='image/x-icon'>
+    <!-- ここまで追加 -->
+
+</head>
+<body class="sckhinpo-main-menu">
+    <div class='container-fluid sckhinpo-header' id="bodyHead">
+        <div class='container'>
+            <div class='sckhinpo-header-title'>
+                <a href="javascript:void(0);" onclick="onSystemTitleClick();" class='_layout-sckhinpo-header-title'>SCK Quality Management</a>
+                <span class='sckhinpo-header-subtitle'> - @ViewData["Title"]</span>
+                <span class='sckhinpo-header-user'>
+                    <partial name="_LoginPartial" />
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="bodyMain" style="overflow-y:auto;">
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer text-muted sckhinpo-hinpo-footer" id="bodyFooter">
+        <div class="container">
+            &copy; 2024 - SCK Quality Management
+        </div>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
+<script> 
+    /*
+    サイズに応じてスクロールバーを表示するようにイベント処理する
+    */
+    window.addEventListener('resize', function () {
+        scrollupdate();
+    }, false);
+    $(window).on('load', function () {
+        scrollupdate();
+    });
+
+    function scrollupdate() {
+        //ヘッダーとフッターを除いた範囲でスクロールバー対応
+        let body_H = $('#bodyHead').outerHeight() + $('#bodyFooter').outerHeight();
+        body_H = $(window).innerHeight() - body_H;
+        $('#bodyMain').css({ 'height': body_H });
+
+        // スクロール最下部移動メソッド
+        // ・アップロードボタンや削除ボタンを押下時にのみ、画面を最下部にスライドするメソッド
+        // ・呼び出し元のメソッドscrollupdate()で高さが決まってからじゃないと効果がないので
+        //   このタイミングで特定のビューのスクリプトを呼び出す。
+        // ・inspecScrollBottom関数無しのビューに対して関数存在チェックを行う
+        //   関数があれば呼び出される。
+        typeof inspecScrollBottom === 'function' ? inspecScrollBottom() : null;
+    }
+
+    function onSystemTitleClick() {
+        if ("@strCurPage" === "TOP" || "@strCurPage" === "SEARCH") {
+            location.href = "/";
+            return false;
+        }
+        showYesNoDialog(
+                '@Localizer["Confirm"]',
+                '@Localizer["Msg_Confirm_BackToMenu"]',
+                "onSubmitBackToSubSystemSelectMenu();"
+                , "$(this).dialog('close');"
+                , "$(this).dialog('close');"
+                , "480", "270"
+        );
+    }
+    // 「戻る」ボタン押下時にメニュー画面へ戻る
+    function onSubmitBackToSubSystemSelectMenu() {
+        // window.onbeforeunloadの抑制
+        window.onbeforeunload = null;
+        location.href = "/";
+        return false;
+    }
+</script>
