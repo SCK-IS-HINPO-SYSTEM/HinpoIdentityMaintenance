@@ -10,15 +10,23 @@ namespace HinpoIdentityMaintenance.Models.Model.AspNetUserSearchModel {
     /// 検査実績モデルクラス
     /// </summary>
     public class AspNetUserSearchPageModel {
-  
+
         public List<SelectListItem> m02Sites { get; set; }
+ 
+        public int SiteId { get; set; }
+        public string UserId { get; set; } = string.Empty;
+        public string UserName { get; set; } = string.Empty;
 
+        public List<HinpoIdentityModels.AspNetUser> AspNetUsers;
 
+        public AspNetUserSearchPageModel(IHinpoMasterServiceReadOnly masterSvcRead, int mySiteId) {
+            m02Sites = DropDownList.GetM02SitesSelectList(masterSvcRead, mySiteId.ToString());
+            AspNetUsers = new List<HinpoIdentityModels.AspNetUser>();
+        }
 
-
-        public AspNetUserSearchPageModel(IHinpoMasterServiceReadOnly hinpoMasterSvcRead) {
-            m02Sites = DropDownList.GetM02SitesSelectList(hinpoMasterSvcRead, "K");
-            //_commonLogic.SetListDefaultSelected(InspectionResultsFlgList, InspecPageIo.InspectionResultsFlg.ToString() ?? "");
+        public AspNetUserSearchPageModel() {
+            m02Sites = new List<SelectListItem>();
+            AspNetUsers = new List<HinpoIdentityModels.AspNetUser>();
         }
     }
 }
