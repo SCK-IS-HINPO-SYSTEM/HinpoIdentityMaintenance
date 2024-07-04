@@ -12,6 +12,8 @@ AspNetUserSearchForm
         @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
             <div class="container sckhinpo-panel mt-3">
                 @Html.HiddenFor(Model => Model.PageModel.SiteId)
+                @Html.HiddenFor(Model => Model.PageModel.SelectedUserId)
+                @Html.HiddenFor(Model => Model.PageModel.Instruction)
                 <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
                     <tbody>
                         <tr>
@@ -51,7 +53,7 @@ AspNetUserSearchForm
                     <tr>
                         <td class='sckhinpo-w-1 ' colspan="3">
                             <div class='text-center '>
-                                <button type='submit' class='col-4 btn btn-primary btn-lg' onclick="onSubmit('srch');">検索</button>
+                                <button type='button' class='col-4 btn btn-primary btn-lg' onclick="onSubmit('srch');">検索</button>
                             </div>
                         </td>
                     </tr>
@@ -60,53 +62,43 @@ AspNetUserSearchForm
 
 
             <div class="container sckhinpo-panel mt-3">
-
                 <table class='table table-bordered table-sm'>
                     <thead class='text-center font-weight-normal w-100 sckhinpo-vscroll-thead' style="margin-bottom: -2px;">
                         <tr class='sckhinpo-table-header'>
-                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set' colspan="2">検査項目</th>
-                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>検査数</th>
-                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>不良数</th>
-                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>検査水準</th>
-                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>不具合連絡書管理番号</th>
-                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>ロットアウト連絡書管理番号</th>
-
-                            <!-- 品証受付画面用 -->
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>選択</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>ユーザーID</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>氏名</th>
+                            <th class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set'>メールアドレス</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class='w-100 sckhinpo-vscroll-tr sckhinpo-lightgray-background sckhinpo-table-inspec-border-down-set'>
-                            <td class='sckhinpo-w-10 sckhinpo-table-th sckhinpo-table-inspec-border-upper-set' style="vertical-align:middle;">
-                                <input checked="checked" data-val="true" data-val-required="IsSelected&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__IsSelected" name="PgModel.InspecPageIo.InspItems[0].IsSelected" type="checkbox" value="true" />
+                        @for(int i = 0; i < Model.PageModel.AspNetUsers.Count; i++){
+                            <tr class='w-100 sckhinpo-vscroll-tr sckhinpo-lightgray-background sckhinpo-table-inspec-border-down-set'>
+                                <td class='sckhinpo-w-10 sckhinpo-table-th sckhinpo-table-inspec-border-upper-set' style="vertical-align:middle;">
+                                    @{
+                                        string checkedString = "";
+                                        if (Model.PageModel.AspNetUsers[i].Id == Model.PageModel.SelectedUserId) { 
+                                            checkedString = "checked"; 
+                                        }
+                                        string idCandidate = "candidate" + Model.PageModel.AspNetUsers[i].Id;
+                                }
+                                    <input type="radio" id="@idCandidate" name="candidate" value="@Model.PageModel.AspNetUsers[i].Id" class="sckhinpo-select-radio" style="width:15px;" @checkedString onclick="onRadioSelect(this.value);" />
                             </td>
-                            <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'><input autocomplete="off" class="form-control text-box single-line" data-val="true" data-val-required="InspName&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__InspName" name="PgModel.InspecPageIo.InspItems[0].InspName" readonly="readonly" style="text-align:left;" type="text" value="&#x5916;&#x89B3;" /></td>
-                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
-                                <div class="sckhinpo-numtype-style">
-                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="InspNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__InspNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[0].InspNum" style="text-align:right !important;" type="number" value="0" />
-                                </div>
+                                <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                    @Model.PageModel.AspNetUsers[i].Id
+                                </td>
+                                <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                    @{
+                                        string nm = Model.PageModel.AspNetUsers[i].LastName + " " + Model.PageModel.AspNetUsers[i].FirstName;
+                                    }
+                                    @nm
+                                </td>
+                            <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
+                                @Model.PageModel.AspNetUsers[i].Email
                             </td>
-                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
-                                <div class="sckhinpo-numtype-style">
-                                    <input class="form-control no-minus int-6 text-box single-line" data-val="true" data-val-required="DefectNum&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__DefectNum" max="999999" min="0" name="PgModel.InspecPageIo.InspItems[0].DefectNum" style="text-align:right !important;" type="number" value="0" />
-                                </div>
-                            </td>
-                            <td class='sckhinpo-w-20  sckhinpo-table-inspec-border-upper-set text-center align-middle'>
-                                <!-- 検査水準 -->
-                                <select autocomplete="off" class="form-control" data-val="true" data-val-required="InspLevel&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__InspLevel" name="PgModel.InspecPageIo.InspItems[0].InspLevel">
-                                    <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
-                                    <option value="1">&#x30CA;&#x30DF;</option>
-                                    <option value="2">&#x30AD;&#x30C4;&#x30A4;</option>
-                                </select>
-                            </td>
-                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
-                                <input class="form-control" data-val="true" data-val-required="FRNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__FRNumber" name="PgModel.InspecPageIo.InspItems[0].FRNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
-                            </td>
-                            <td class='sckhinpo-w-20 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
-                                <input class="form-control" data-val="true" data-val-required="LotoutNumber&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;" id="PgModel_InspecPageIo_InspItems_0__LotoutNumber" name="PgModel.InspecPageIo.InspItems[0].LotoutNumber" readonly="readonly" style="background-color:lightgray" type="text" value="" />
-                            </td>
-                            <!-- 品証受付画面用 -->
+                               
                         </tr>
-  
+                        }
                     </tbody>
                 </table>
             </div>
@@ -114,16 +106,16 @@ AspNetUserSearchForm
             <div class="mb-2"></div>
             <div class="form-group input-group">
 
-                <!-- UAT-No45対応 20240422 -->
+ 
                 <table class="table table-borderless sckhinpo-margin-bottom-half sckhinpo-nopadding-lr" id="listFooter">
                     <tr>
                         <td class="sckhinpo-w-50 sckhinpo-text-left">
-                            <button type="button" class="col-4 btn btn-secondary btn-lg back-btn" onclick="onBackToSearch();">戻る</button>
+                            <button type="button" class="col-4 btn btn-secondary btn-lg back-btn" onclick="onSubmit('back');">戻る</button>
                         </td>
                         <td class="sckhinpo-w-50 sckhinpo-text-right">
-                            <button type='button' class='col-4 btn btn-primary btn-lg' onclick="onConfirmDelete();">削除</button>
+                            <button type='button' class='col-4 btn btn-primary btn-lg' onclick="onSubmit('del');">削除</button>
                             &nbsp;
-                            <button type='submit' class='col-4 btn btn-primary btn-lg' onclick="onSubmit(5);">内容確認</button>
+                            <button type='button' class='col-4 btn btn-primary btn-lg' onclick="onSubmit('conf');">内容確認</button>
                         </td>
                     </tr>
                 </table>
@@ -139,6 +131,23 @@ AspNetUserSearchForm
     function onChangeSite(siteid){
         var tgt = document.getElementById("PageModel_SiteId");
         tgt.value = siteid;
-        alert(tgt.value);
+    }
+
+    function onRadioSelect(userid) {
+        var ele = document.getElementById("PageModel_SelectedUserId");
+        ele.value = userid;
+    }
+
+    function onSubmit(instruction){
+        var ele = document.getElementById("PageModel_Instruction");
+        ele.value = instruction;
+        if (instruction == 'del') {
+            var result = window.confirm('削除します。よろしいですか？');
+            if (!result) {
+                return (false);
+            }
+        }
+        var frm = document.getElementById("@submitFormname");
+        frm.submit();
     }
 </script> 

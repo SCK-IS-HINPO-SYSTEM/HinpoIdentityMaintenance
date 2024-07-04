@@ -41,7 +41,21 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
         }
         public void OnPost() {
             SetMasterDate();
-            List<HinpoIdentityModels.AspNetUser> AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PageModel.SiteId, PageModel.UserId ?? "", PageModel.UserName ?? "").Result;
+            switch (PageModel.Instruction){
+                case "srch":
+                    PageModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PageModel.SiteId, PageModel.UserId ?? "", PageModel.UserName ?? "").Result;
+                    break;
+                case "back":
+                    RedirectToAction("Index", "Home");
+                    break;
+                case "del":
+                    Ç±Ç±Ç…çÌèúÇì¸ÇÍÇÈ
+                    PageModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PageModel.SiteId, PageModel.UserId ?? "", PageModel.UserName ?? "").Result;
+                    break;
+                case "conf":
+                    RedirectToAction("Index", "AspNetUserClaimsMnt", new { userid = PageModel.SelectedUserId });
+                    break;
+            }
         }
 
         private void SetMasterDate() {
