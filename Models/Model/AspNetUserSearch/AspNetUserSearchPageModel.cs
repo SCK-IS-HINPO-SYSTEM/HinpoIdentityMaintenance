@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
-namespace HinpoIdentityMaintenance.Models.Model.AspNetUserSearchModel {
+namespace HinpoIdentityMaintenance.Models.Model {
     /// <summary>
     /// 検査実績モデルクラス
     /// </summary>

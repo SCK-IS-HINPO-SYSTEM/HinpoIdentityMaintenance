@@ -1,7 +1,7 @@
 using CommonWebResources.WebParts;
 using HinpoIdentityBusinessLayer;
 using HinpoIdentityMaintenance.Data;
-using HinpoIdentityMaintenance.Models.Model.AspNetUserSearchModel;
+using HinpoIdentityMaintenance.Models.Model;
 using HinpoMasterBusinessLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -39,23 +39,23 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
         public void OnGet() {
             SetMasterDate();
         }
-        public void OnPost() {
+        public IActionResult OnPost() {
             SetMasterDate();
             switch (PageModel.Instruction){
                 case "srch":
                     PageModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PageModel.SiteId, PageModel.UserId ?? "", PageModel.UserName ?? "").Result;
                     break;
                 case "back":
-                    RedirectToAction("Index", "Home");
-                    break;
+                    return RedirectToAction("Index", "Home");
                 case "del":
                     bool rslt =_hinpoIdentityService.DeleteUser(PageModel.SelectedUserId).Result;
                     PageModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PageModel.SiteId, PageModel.UserId ?? "", PageModel.UserName ?? "").Result;
                     break;
                 case "conf":
-                    RedirectToAction("Index", "AspNetUserClaimsMnt", new { userid = PageModel.SelectedUserId });
-                    break;
+                    //return RedirectToPage("Index", "AspNetUserClaimsMnt", new { userid = PageModel.SelectedUserId });
+                    return RedirectToPage("/AspNetUserClaimsMnt/Index", new { userid = PageModel.SelectedUserId });
             }
+            return Page(); ;
         }
 
         private void SetMasterDate() {
