@@ -3,7 +3,10 @@
 @using HinpoIdentityMaintenance.Models.Model.AspNetUserSearchModel;
 
 @{
-    string submitFormname = "AspNetUserSearchForm";
+    const string submitFormname = "AspNetUserSearchForm";
+    const string idButtonBack = "ButtonBack";
+    const string idButtonDelete = "ButtonDelete";
+    const string idButtonConf = "ButtonConf";
 }
 AspNetUserSearchForm
 <div class="text-center">
@@ -80,9 +83,9 @@ AspNetUserSearchForm
                                         if (Model.PageModel.AspNetUsers[i].Id == Model.PageModel.SelectedUserId) { 
                                             checkedString = "checked"; 
                                         }
-                                        string idCandidate = "candidate" + Model.PageModel.AspNetUsers[i].Id;
+                                        string idButtonCandidate = "candidate" + Model.PageModel.AspNetUsers[i].Id;
                                 }
-                                    <input type="radio" id="@idCandidate" name="candidate" value="@Model.PageModel.AspNetUsers[i].Id" class="sckhinpo-select-radio" style="width:15px;" @checkedString onclick="onRadioSelect(this.value);" />
+                                    <input type="radio" id="@idButtonCandidate" name="ButtonCandidate" value="@Model.PageModel.AspNetUsers[i].Id" class="sckhinpo-select-radio" style="width:15px;" @checkedString onclick="onRadioSelect(this.value);" />
                             </td>
                                 <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
                                     @Model.PageModel.AspNetUsers[i].Id
@@ -105,17 +108,17 @@ AspNetUserSearchForm
 
             <div class="mb-2"></div>
             <div class="form-group input-group">
-
+                
  
                 <table class="table table-borderless sckhinpo-margin-bottom-half sckhinpo-nopadding-lr" id="listFooter">
                     <tr>
                         <td class="sckhinpo-w-50 sckhinpo-text-left">
-                            <button type="button" class="col-4 btn btn-secondary btn-lg back-btn" onclick="onSubmit('back');">戻る</button>
+                            <button type="button" id="@idButtonBack" name="@idButtonBack" class="col-4 btn btn-secondary btn-lg back-btn" onclick="onSubmit('back');">戻る</button>
                         </td>
                         <td class="sckhinpo-w-50 sckhinpo-text-right">
-                            <button type='button' class='col-4 btn btn-primary btn-lg' onclick="onSubmit('del');">削除</button>
+                            <button type='button' id="@idButtonDelete" name="@idButtonDelete" class='col-4 btn btn-danger btn-lg' disabled onclick="onSubmit('del');">利用停止</button>
                             &nbsp;
-                            <button type='button' class='col-4 btn btn-primary btn-lg' onclick="onSubmit('conf');">内容確認</button>
+                            <button type='button' id="@idButtonConf" name="@idButtonConf" class='col-4 btn btn-primary btn-lg' disabled onclick="onSubmit('conf');">内容確認</button>
                         </td>
                     </tr>
                 </table>
@@ -136,13 +139,15 @@ AspNetUserSearchForm
     function onRadioSelect(userid) {
         var ele = document.getElementById("PageModel_SelectedUserId");
         ele.value = userid;
+        $('#@idButtonDelete').prop('disabled', false);
+        $('#@idButtonConf').prop('disabled', false);
     }
 
     function onSubmit(instruction){
         var ele = document.getElementById("PageModel_Instruction");
         ele.value = instruction;
         if (instruction == 'del') {
-            var result = window.confirm('削除します。よろしいですか？');
+            var result = window.confirm('このユーザーを利用停止にします。\r\nよろしいですか？\r\n\r\n利用再開の場合はログイン画面の\r\n\'Resend email confirmation\'リンクより再承認依頼してください');
             if (!result) {
                 return (false);
             }

@@ -49,7 +49,7 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
                     RedirectToAction("Index", "Home");
                     break;
                 case "del":
-                    ‚±‚±‚Éíœ‚ğ“ü‚ê‚é
+                    bool rslt =_hinpoIdentityService.DeleteUser(PageModel.SelectedUserId).Result;
                     PageModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PageModel.SiteId, PageModel.UserId ?? "", PageModel.UserName ?? "").Result;
                     break;
                 case "conf":
