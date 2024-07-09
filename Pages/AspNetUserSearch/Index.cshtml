@@ -7,8 +7,9 @@
     const string idButtonBack = "ButtonBack";
     const string idButtonDelete = "ButtonDelete";
     const string idButtonConf = "ButtonConf";
+    const string idButtonAuth = "ButtonAuth";    
 }
-AspNetUserSearchForm
+
 <div class="text-center">
     <!-- コンテンツ本体 -->
     <div class="container-fluid clearfix sckhinpo-body">
@@ -24,12 +25,7 @@ AspNetUserSearchForm
                             <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>サイト<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
                             <td class='sckhinpo-w-15'>
                                 <div class='input-group '>
-                                    <select class="form-control" data-val="true" data-val-required="&#x30B5;&#x30A4;&#x30C8;&#x306F;&#x5FC5;&#x9808;&#x3067;&#x3059;&#x3002;"
-                                            id="m02Site_Id" name="m02Site.Id" onchange="onChangeSite(this.value)">
-                                        <option value="1">熊本TEC</option>
-                                        <option value="2">鹿児島TEC</option>
-                                        <option value="3">長崎TEC</option>                                        
-                                    </select>
+                                    @Html.DropDownListFor(model => model.PageModel.SiteId, (IEnumerable<SelectListItem>)Model.PageModel.m02Sites, " 選択してください ", new { @class = "form-control", autocomplete = "off", @onchange = "onChangeSite(this.value)" })
                                 </div>
                             </td>
                             <!-- GID -->
@@ -113,12 +109,14 @@ AspNetUserSearchForm
                 <table class="table table-borderless sckhinpo-margin-bottom-half sckhinpo-nopadding-lr" id="listFooter">
                     <tr>
                         <td class="sckhinpo-w-50 sckhinpo-text-left">
-                            <button type="button" id="@idButtonBack" name="@idButtonBack" class="col-4 btn btn-secondary btn-lg back-btn" onclick="onSubmit('back');">戻る</button>
+                            <button type="button" id="@idButtonBack" name="@idButtonBack" class="col-3 btn btn-secondary btn-lg back-btn" onclick="onSubmit('back');">戻る</button>
                         </td>
                         <td class="sckhinpo-w-50 sckhinpo-text-right">
-                            <button type='button' id="@idButtonDelete" name="@idButtonDelete" class='col-4 btn btn-danger btn-lg' disabled onclick="onSubmit('del');">利用停止</button>
+                            <button type='button' id="@idButtonDelete" name="@idButtonDelete" class='col-3 btn btn-danger btn-lg' disabled onclick="onSubmit('del');">利用停止</button>
                             &nbsp;
-                            <button type='button' id="@idButtonConf" name="@idButtonConf" class='col-4 btn btn-primary btn-lg' disabled onclick="onSubmit('conf');">内容確認</button>
+                            <button type='button' id="@idButtonConf" name="@idButtonConf" class='col-3 btn btn-primary btn-lg' disabled onclick="onSubmit('conf');">属性確認</button>
+                            &nbsp;
+                            <button type='button' id="@idButtonAuth" name="@idButtonAuth" class='col-3 btn btn-primary btn-lg' disabled onclick="onSubmit('auth');">権限確認</button>
                         </td>
                     </tr>
                 </table>
@@ -141,6 +139,7 @@ AspNetUserSearchForm
         ele.value = userid;
         $('#@idButtonDelete').prop('disabled', false);
         $('#@idButtonConf').prop('disabled', false);
+        $('#@idButtonAuth').prop('disabled', false);
     }
 
     function onSubmit(instruction){

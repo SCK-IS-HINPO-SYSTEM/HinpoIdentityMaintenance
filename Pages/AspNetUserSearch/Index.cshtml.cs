@@ -37,10 +37,10 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
         }
 
         public void OnGet() {
-            SetMasterDate();
+            SetMasterData();
         }
         public IActionResult OnPost() {
-            SetMasterDate();
+            SetMasterData();
             switch (PageModel.Instruction){
                 case "srch":
                     PageModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PageModel.SiteId, PageModel.UserId ?? "", PageModel.UserName ?? "").Result;
@@ -52,13 +52,14 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
                     PageModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PageModel.SiteId, PageModel.UserId ?? "", PageModel.UserName ?? "").Result;
                     break;
                 case "conf":
-                    //return RedirectToPage("Index", "AspNetUserClaimsMnt", new { userid = PageModel.SelectedUserId });
                     return RedirectToPage("/AspNetUserClaimsMnt/Index", new { userid = PageModel.SelectedUserId });
+                case "auth":
+                    return RedirectToPage("/AspNetUserRolesMnt/Index", new { userid = PageModel.SelectedUserId });
             }
             return Page(); ;
         }
 
-        private void SetMasterDate() {
+        private void SetMasterData() {
             int mySiteId = 0;
             if (PageModel.SiteId <= 0) {
                 mySiteId = int.Parse(User.FindFirstValue("SiteId") ?? "-1");

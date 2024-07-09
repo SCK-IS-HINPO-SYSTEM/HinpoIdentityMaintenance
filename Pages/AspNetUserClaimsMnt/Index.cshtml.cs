@@ -1,7 +1,7 @@
+using DocumentFormat.OpenXml.Spreadsheet;
 using HinpoIdentityBusinessLayer;
 using HinpoIdentityMaintenance.Data;
 using HinpoIdentityMaintenance.Models.Model;
-using HinpoIdentityModels;
 using HinpoMasterBusinessLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +36,37 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserClaimsMnt {
         }
 
         public void OnGet(string userid) {
-            PageModel.MyAspNetUser = _hinpoIdentityService.GetAspNetUsers(userid).Result;
+            PageModel.UserId = userid;
+            SetMasterData();
+        }
+
+        public IActionResult OnPost() {
+            bool updSts = false;
+            switch (PageModel.Instruction) {
+                case "back":
+                    return RedirectToPage("/AspNetUserSearch/Index", new { userid = PageModel.UserId });
+                case "upd":
+                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(PageModel.UserId, "SiteId", PageModel.SiteId.ToString() ).Result;
+                    if (updSts == false) {
+                        throw new Exception("SiteId Update Failed");
+                    }
+                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(PageModel.UserId, "BusyoId", PageModel.BusyoId.ToString()).Result;
+                    if (updSts == false) {
+                        throw new Exception("BusyoId Update Failed");
+                    }
+                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(PageModel.UserId, "Lang", PageModel.Lang).Result;
+                    if (updSts == false) {
+                        throw new Exception("Language Update Failed");
+                    }
+                    SetMasterData();
+
+                    return RedirectToPage("/AspNetUserSearch/Index", new { userid = PageModel.UserId });
+            }
+            SetMasterData();
+            return Page(); ;
+        }
+        private void SetMasterData() {
+            PageModel.MyAspNetUser = _hinpoIdentityService.GetAspNetUsers(PageModel.UserId).Result;
             PageModel.SetMaster(_masterSvcRead, _hinpoIdentityService);
         }
     }
