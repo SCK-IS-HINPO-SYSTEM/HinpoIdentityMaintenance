@@ -22,8 +22,8 @@ namespace HinpoIdentityMaintenance.Models.Model {
         public string UserId { get; set; } = default!;
         public AspNetUser MyAspNetUser = default!;
         public List<AspNetUserClaim> MyAspNetUserClaims = new List<AspNetUserClaim>();
-        public List<AspNetUserRoles> MyAspNetUserRoles = new List<AspNetUserRoles>();
-        public List<AspNetRoles> MyAspNetRoles = new List<AspNetRoles>();
+        //public List<AspNetUserRoles> MyAspNetUserRoles = new List<AspNetUserRoles>();
+        //public List<AspNetRoles> MyAspNetRoles = new List<AspNetRoles>();
 
         //public AspNetUserClaimsMntPageModel(IHinpoMasterServiceReadOnly masterSvcRead, int mySiteId, int myBusyoId) {
         //    m02Sites = DropDownList.GetM02SitesSelectList(masterSvcRead, mySiteId.ToString());
@@ -42,7 +42,7 @@ namespace HinpoIdentityMaintenance.Models.Model {
 
             m02Sites = DropDownList.GetM02SitesSelectList(masterSvcRead, mySiteId.ToString());
             m04Busyos = DropDownList.GetM04BusyosSelectList(masterSvcRead, myBusyoId.ToString());
-            MyAspNetRoles = _hinpoIdentityService.GetAspNetRoles().Result;
+            //MyAspNetRoles = _hinpoIdentityService.GetAspNetRoles().Result;
             Lang = MyAspNetUser.AspNetUserClaims.FirstOrDefault(x => x.ClaimType.Equals("Lang"))?.ClaimValue ?? "";
         }
 

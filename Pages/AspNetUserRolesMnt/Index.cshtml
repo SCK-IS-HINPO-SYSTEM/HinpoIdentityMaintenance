@@ -1,0 +1,93 @@
+﻿@page
+@model HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt.IndexModel
+@using HinpoIdentityMaintenance.Models.Model;
+@{
+    string submitFormname = "AspNetUserRolesMntForm";
+    string idButtonUpd = "idButtonUpd";
+}
+<div class="text-center">
+    <!-- コンテンツ本体 -->
+    <div class="container-fluid clearfix sckhinpo-body">
+        <div class="container sckhinpo-panel mt-3">
+            <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
+                <tbody>
+                    <tr>
+                        <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>UserId</th>
+                        <td class='text-left bg-white align-middle sckhinpo-w-25'>
+                            @Model.PageModel.MyAspNetUser.Id
+                        </td>
+                        <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>氏名</th>
+                        <td class='text-left bg-white align-middle sckhinpo-w-25'>@Model.PageModel.FullName</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
+            @Html.HiddenFor(model => model.PageModel.UserId)
+            @Html.HiddenFor(model => model.PageModel.Instruction)
+            <div class="container sckhinpo-panel mt-3">
+                <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
+                    <thead>
+                        <tr>
+                            <!-- チェック -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'></th>
+                            <!-- Id -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-300'>Id</th>
+                            <!-- RoleNameJp -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-60'>役割</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int row = 0; row < Model.PageModel.AllAspNetRoles.Count; row++) {
+                            <tr>
+                                <td class='text-center bg-white'>
+                                    @Html.CheckBoxFor(Model => Model.PageModel.AllAspNetRoles[row].IsChecked, new { @onclick = "buttonEnabled()" })
+                                </td>
+                                <td class='text-left bg-white'>
+                                    @Model.PageModel.AllAspNetRoles[row].Id
+                                </td>
+                                <td class='text-left bg-white'>
+                                    @Model.PageModel.AllAspNetRoles[row].RoleNameJp
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class="mb-2"></div>
+            <div class="form-group input-group">
+                <table class="table table-borderless sckhinpo-margin-bottom-half sckhinpo-nopadding-lr" id="listFooter">
+                    <tr>
+                        <td class="sckhinpo-w-50 sckhinpo-text-left">
+                            <button type="button" class="col-4 btn btn-secondary btn-lg back-btn" onclick="onSubmit('back');">戻る</button>
+                        </td>
+                        <td class="sckhinpo-w-50 sckhinpo-text-right">
+                            <button type='submit' class='col-4 btn btn-primary btn-lg' id='@idButtonUpd' disabled onclick="onSubmit('upd');">変更</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+<script type="text/javascript">
+    // ページ読み込み時の実行処理
+    $(document).ready(function () {
+    });
+
+    function buttonEnabled() {
+        $('#@idButtonUpd').prop('disabled', false);
+    }
+
+    function onSubmit(instruction) {
+        var ele = document.getElementById("PageModel_Instruction");
+        ele.value = instruction;
+        var frm = document.getElementById("@submitFormname");
+        frm.submit();
+    }
+</script>
