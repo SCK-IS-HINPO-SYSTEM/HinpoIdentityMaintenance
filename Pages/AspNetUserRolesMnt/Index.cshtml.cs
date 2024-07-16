@@ -6,6 +6,7 @@ using HinpoMasterBusinessLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Identity;
 
 namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
     public class IndexModel : PageModel {
@@ -41,28 +42,23 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
         }
 
         public IActionResult OnPost() {
-            bool updSts = false;
+            List<string> modRoles = new List<string>();
+            if (PageModel == null ) {
+                SetMasterData();
+                return Page();
+            }
             switch (PageModel.Instruction) {
                 case "back":
                     return RedirectToPage("/AspNetUserSearch/Index", new { userid = PageModel.UserId });
                 case "upd":
-                    ここの実装から
-
-
-                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(PageModel.UserId, "SiteId", PageModel.SiteId.ToString() ).Result;
-                    if (updSts == false) {
-                        throw new Exception("SiteId Update Failed");
+                    for (int row = 0; row < PageModel.AllAspNetRoles.Count; row++) {
+                        if (PageModel.AllAspNetRoles[row].IsChecked) {
+                            modRoles.Add(PageModel.AllAspNetRoles[row].Id);
+                        }
                     }
-                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(PageModel.UserId, "BusyoId", PageModel.BusyoId.ToString()).Result;
-                    if (updSts == false) {
-                        throw new Exception("BusyoId Update Failed");
-                    }
-                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(PageModel.UserId, "Lang", PageModel.Lang).Result;
-                    if (updSts == false) {
-                        throw new Exception("Language Update Failed");
-                    }
+                    // AspNetRolesの更新。エラー時は中でthrowしているのでupdStsはチェックしなくてよい
+                    bool updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserRoles(PageModel.UserId, modRoles).Result;
                     SetMasterData();
-
                     return RedirectToPage("/AspNetUserSearch/Index", new { userid = PageModel.UserId });
             }
             SetMasterData();

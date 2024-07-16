@@ -27,6 +27,7 @@
         @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
             @Html.HiddenFor(model => model.PageModel.UserId)
             @Html.HiddenFor(model => model.PageModel.Instruction)
+            @Html.HiddenFor(model => model.PageModel.SelectedAspNetRolesId)
             <div class="container sckhinpo-panel mt-3">
                 <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
                     <thead>
@@ -43,7 +44,8 @@
                         @for (int row = 0; row < Model.PageModel.AllAspNetRoles.Count; row++) {
                             <tr>
                                 <td class='text-center bg-white'>
-                                    @Html.CheckBoxFor(Model => Model.PageModel.AllAspNetRoles[row].IsChecked, new { @onclick = "buttonEnabled()" })
+                                    @Html.CheckBoxFor(Model => Model.PageModel.AllAspNetRoles[row].IsChecked, new { @onclick = "radioChecked('" + @Model.PageModel.AllAspNetRoles[row].Id + "')" })
+                                    @Html.HiddenFor(model => model.PageModel.AllAspNetRoles[row].Id)
                                 </td>
                                 <td class='text-left bg-white'>
                                     @Model.PageModel.AllAspNetRoles[row].Id
@@ -51,6 +53,28 @@
                                 <td class='text-left bg-white'>
                                     @Model.PageModel.AllAspNetRoles[row].RoleNameJp
                                 </td>
+
+                               @*  <div style="display: none;">
+                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].Id)
+                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].ProcessId)
+                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].GroupId)
+                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].RoleId)
+                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].RoleNameJp)
+                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].Name)
+                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].NormalizedName)
+                                </div> *@
+
+                @*                 <input name="PageModel.AllAspNetRoles[@row].Id" type="hidden" value="@Model.PageModel.AllAspNetRoles[row].Id" />
+
+                                <div style="display: none;">@Html.EditorFor(model => model.MyList)</div>
+                                <input data-val="true" data-val-required="The ProcessId field is required." id="PageModel_AllAspNetRoles_1__ProcessId" name="PageModel.AllAspNetRoles[1].ProcessId" type="hidden" value="102" />
+                                <input data-val="true" data-val-required="The GroupId field is required." id="PageModel_AllAspNetRoles_1__GroupId" name="PageModel.AllAspNetRoles[1].GroupId" type="hidden" value="2" />
+                                <input data-val="true" data-val-required="The RoleId field is required." id="PageModel_AllAspNetRoles_1__RoleId" name="PageModel.AllAspNetRoles[1].RoleId" type="hidden" value="3" />
+                                <input data-val="true" data-val-required="The RoleNameJp field is required." id="PageModel_AllAspNetRoles_1__RoleNameJp" name="PageModel.AllAspNetRoles[1].RoleNameJp" type="hidden" value="&#x627F;&#x8A8D;" />
+                                <input data-val="true" data-val-required="The Name field is required." id="PageModel_AllAspNetRoles_1__Name" name="PageModel.AllAspNetRoles[1].Name" type="hidden" value="Def_Rep_AApprove" />
+                                <input data-val="true" data-val-required="The NormalizedName field is required." id="PageModel_AllAspNetRoles_1__NormalizedName" name="PageModel.AllAspNetRoles[1].NormalizedName" type="hidden" value="DEF_REP_AAPPROVE" />
+ *@
+            
                             </tr>
                         }
                     </tbody>
@@ -80,7 +104,7 @@
     $(document).ready(function () {
     });
 
-    function buttonEnabled() {
+    function radioChecked(value) {
         $('#@idButtonUpd').prop('disabled', false);
     }
 

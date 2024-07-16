@@ -19,12 +19,16 @@ namespace HinpoIdentityMaintenance.Models.Model {
         public int BusyoId { get; set; }
         public string Lang { get; set; } = default!;
         public string Instruction { get; set; } = default!;
+        public string SelectedAspNetRolesId { get; set; } = default!;
+        public string AspNetRolesId { get; set; } = default!;
+
+
         public string UserId { get; set; } = default!;
         public string FullName { get; set; } = default!;
-        public AspNetUser MyAspNetUser = default!;
+        public AspNetUser MyAspNetUser { get; set; } = default!;
         //public List<AspNetUserClaim> MyAspNetUserClaims = new List<AspNetUserClaim>();
-        public List<AspNetUserRoles> MyAspNetUserRoles = new List<AspNetUserRoles>();
-        public List<AspNetRolesExt> AllAspNetRoles = new List<AspNetRolesExt>();
+        public List<AspNetUserRoles> MyAspNetUserRoles { get; set; } = new List<AspNetUserRoles>();
+        public List<AspNetRolesExt> AllAspNetRoles { get; set; } = new List<AspNetRolesExt>();
 
         //public AspNetUserRolesMntPageModel(IHinpoMasterServiceReadOnly masterSvcRead, int mySiteId, int myBusyoId) {
         //    m02Sites = DropDownList.GetM02SitesSelectList(masterSvcRead, mySiteId.ToString());
@@ -44,7 +48,7 @@ namespace HinpoIdentityMaintenance.Models.Model {
             //m02Sites = DropDownList.GetM02SitesSelectList(masterSvcRead, mySiteId.ToString());
             //m04Busyos = DropDownList.GetM04BusyosSelectList(masterSvcRead, myBusyoId.ToString());
             MyAspNetUserRoles = _hinpoIdentityService.GetAspNetUserRoles(UserId).Result;
-            for(int i = MyAspNetUserRoles.Count -1; i >= 0; i--) {
+            for (int i = MyAspNetUserRoles.Count - 1; i >= 0; i--) {
                 if (MyAspNetUserRoles[i].AspNetRoles == null) { // 念の為マスタ不正対応
                     MyAspNetUserRoles.RemoveAt(i);
                 }
@@ -59,9 +63,9 @@ namespace HinpoIdentityMaintenance.Models.Model {
                 //    }
                 //}
                 //foreach (var t in ars) {
-                    if(MyAspNetUserRoles.Any(x=>x.AspNetRoles.Id == tmp.Id)){
-                        tmp.IsChecked = true;
-                    }
+                if (MyAspNetUserRoles.Any(x => x.AspNetRoles.Id == tmp.Id)) {
+                    tmp.IsChecked = true;
+                }
                 //}
 
                 AllAspNetRoles.Add(tmp);
@@ -73,22 +77,33 @@ namespace HinpoIdentityMaintenance.Models.Model {
         public AspNetUserRolesMntPageModel() {
             m02Sites = new List<SelectListItem>();
             m04Busyos = new List<SelectListItem>();
+            AllAspNetRoles = new List<AspNetRolesExt>();
             Instruction = "";
             Lang = "";
         }
     }
-    public class AspNetRolesExt : AspNetRoles {
+    public class AspNetRolesExt {
         public bool IsChecked { get; set; } = false;
-        public AspNetRolesExt(AspNetRoles ar) {
-            base.Id = ar.Id;
-            base.RoleId = ar.RoleId;
-            base.RoleNameJp= ar.RoleNameJp;
-            base.ProcessId= ar.ProcessId;
-            base.GroupId = ar.GroupId;
-            base.RoleId = ar.RoleId;
-            base.Name = ar.Name;
-            base.NormalizedName = ar.NormalizedName;
+        public string Id { get; set; }
+        public short ProcessId { get; set; }
+        public short GroupId { get; set; }
+        public short RoleId { get; set; }
+        public string RoleNameJp { get; set; }
+        public string Name { get; set; }
+        public string NormalizedName { get; set; }
+
+        public AspNetRolesExt() {
         }
 
+        public AspNetRolesExt(AspNetRoles ar) {
+           Id = ar.Id;
+            RoleId = ar.RoleId;
+            RoleNameJp = ar.RoleNameJp;
+            ProcessId = ar.ProcessId;
+            GroupId = ar.GroupId;
+            RoleId = ar.RoleId;
+            Name = ar.Name;
+            NormalizedName = ar.NormalizedName;
+        }
     }
 }
