@@ -4,31 +4,56 @@
 @{
     string submitFormname = "AspNetUserRolesMntForm";
     string idButtonUpd = "idButtonUpd";
+    string idButtonSrc = "idButtonSrc";
     string fontstyle = "";
 }
 <div class="text-center">
     <!-- コンテンツ本体 -->
     <div class="container-fluid clearfix sckhinpo-body">
-        <div class="container sckhinpo-panel mt-3">
-            <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
-                <tbody>
-                    <tr>
-                        <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>UserId</th>
-                        <td class='text-left bg-white align-middle sckhinpo-w-25'>
-                            @Model.PgModel.MyAspNetUser.Id
-                        </td>
-                        <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>氏名</th>
-                        <td class='text-left bg-white align-middle sckhinpo-w-25'>@Model.PgModel.FullName</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
 
         @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
             @Html.HiddenFor(model => model.PgModel.Instruction)
             @Html.HiddenFor(model => model.PgModel.SelectedAspNetRolesId)
             <input asp-for="@Model.PgModel.SrchCond" type="hidden" value="@Model.PgModel.SrchCond" />
+
+            <div class="container sckhinpo-panel mt-3">
+                <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
+                    <tbody>
+                        <tr>
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>UserId</th>
+                            <td class='text-left bg-white align-middle sckhinpo-w-25'>
+                                <input asp-for="@Model.PgModel.MyAspNetUser.Id" type="text" value="@Model.PgModel.MyAspNetUser.Id" class="form-control" />
+
+                            </td>
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>氏名</th>
+                            <td class='text-left bg-white align-middle sckhinpo-w-25'>@Model.PgModel.FullName</td>
+                        </tr>
+                        <tr>
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>権限絞り込み</th>
+                            <td class='text-left bg-white align-middle sckhinpo-w-25'>
+                                <div class='input-group '>
+                                    <input asp-for="@Model.PgModel.FilterRole" type="text" value="@Model.PgModel.FilterRole" class="form-control" />
+                                </div>
+                            </td>
+
+                            <td colspan="2" class='text-center bg-white align-middle sckhinpo-w-25'>
+                                <button type='submit' class='col-4 btn btn-primary btn-lg' id='@idButtonSrc' onclick="onSubmit('srch');">絞り込み</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="container sckhinpo-panel mt-3">
+                <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
+                    <tbody>
+    
+                    </tbody>
+                </table>
+            </div>
+
+
+
             <div class="container sckhinpo-panel mt-3">
                 <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
                     <thead>
@@ -45,18 +70,17 @@
                     </thead>
                     <tbody>
                         @for (int row = 0; row < Model.PgModel.AllAspNetRoles.Count; row++) {
-                            @Html.HiddenFor(model => model.PgModel.AllAspNetRoles[row].Id)
+                            <input asp-for="@Model.PgModel.AllAspNetRoles[row].Id" type="hidden" value="@Model.PgModel.AllAspNetRoles[row].Id" />
+
                             <tr>
                                 <td class='text-center bg-white'>
                                     @if (Model.PgModel.AllAspNetRoles[row].IsInRole == false) {
-                                        @Html.CheckBoxFor(Model => Model.PgModel.AllAspNetRoles[row].IsAddChecked, new { @onclick = "radioChecked('" + @Model.PgModel.AllAspNetRoles[row].Id + "')" })
-                                        ;
+                                        @Html.CheckBoxFor(Model => Model.PgModel.AllAspNetRoles[row].IsAddChecked, new { @onclick = "radioChecked('" + @Model.PgModel.AllAspNetRoles[row].Id + "')" })                                        ;
                                     }
                                 </td>
                                 <td class='text-center bg-white'>
                                     @if (Model.PgModel.AllAspNetRoles[row].IsInRole == true) {
-                                        @Html.CheckBoxFor(Model => Model.PgModel.AllAspNetRoles[row].IsDelChecked, new { @onclick = "radioChecked('" + @Model.PgModel.AllAspNetRoles[row].Id + "')" })
-                                        ;
+                                        @Html.CheckBoxFor(Model => Model.PgModel.AllAspNetRoles[row].IsDelChecked, new { @onclick = "radioChecked('" + @Model.PgModel.AllAspNetRoles[row].Id + "')" })                                        ;
                                     }
                                 </td>
                                 @if (Model.PgModel.AllAspNetRoles[row].IsInRole == true) {

@@ -34,10 +34,11 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
             _accessor = httpContextAccessor;
             _masterSvcRead = masterSvcRead;
             _hinpoIdentityService = hinpoIdentityService;
-            PgModel = new AspNetUserRolesMntPageModel();
+           // PgModel = new AspNetUserRolesMntPageModel();
         }
 
         public void OnGet(string srchcond) {
+            PgModel = new AspNetUserRolesMntPageModel();
             PgModel.SrchCond = srchcond;
             SetMasterData();
         }
@@ -49,10 +50,17 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
                 SetMasterData();
                 return Page();
             }
+            
+            // å†å¿ÉtÉBÉãÉ^ÇåüçıèåèÇ…ï€ë∂
             SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
+            _SrchCondModel.Srch_RolesMnt_RoleName = PgModel.FilterRole;
+            PgModel.SrchCond = JsonSerializer.Serialize(_SrchCondModel, Consts._jsonOptions);
+
             switch (PgModel.Instruction) {
                 case "back":
                     return RedirectToPage("/AspNetUserSearch/Index", new { userid = _SrchCondModel.Srch_SelectedUid });
+                case "srch":
+                    break;
                 case "upd":
                     for (int row = 0; row < PgModel.AllAspNetRoles.Count; row++) {
                         if (PgModel.AllAspNetRoles[row].IsAddChecked) {
@@ -68,7 +76,7 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
                     return RedirectToPage("/AspNetUserSearch/Index", new { srchcond = PgModel.SrchCond });
             }
             SetMasterData();
-            return Page(); ;
+            return Page();
         }
         private void SetMasterData() {
             SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();

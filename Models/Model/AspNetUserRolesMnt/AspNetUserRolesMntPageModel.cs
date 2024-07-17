@@ -24,6 +24,7 @@ namespace HinpoIdentityMaintenance.Models.Model {
         public string AspNetRolesId { get; set; } = default!;
         public string SrchCond { get; set; } = default!;        
         public string FullName { get; set; } = default!;
+        public string FilterRole { get; set; } = default!;
         public AspNetUser MyAspNetUser { get; set; } = default!;
         public List<AspNetUserRoles> MyAspNetUserRoles { get; set; } = new List<AspNetUserRoles>();
         public List<AspNetRolesExt> AllAspNetRoles { get; set; } = new List<AspNetRolesExt>();
@@ -36,8 +37,21 @@ namespace HinpoIdentityMaintenance.Models.Model {
                     MyAspNetUserRoles.RemoveAt(i);
                 }
             }
+            if (_SrchCondModel.Srch_RolesMnt_RoleName == null) {
+                _SrchCondModel.Srch_RolesMnt_RoleName = "";
+            }
             List<AspNetRoles> ars = _hinpoIdentityService.GetAspNetRoles().Result;
+            AllAspNetRoles = new List<AspNetRolesExt>();
+            AllAspNetRoles.Clear();
             foreach (AspNetRoles ar in ars) {
+
+                _SrchCondModel.Srch_RolesMnt_RoleName = _SrchCondModel.Srch_RolesMnt_RoleName.Trim().ToUpper();
+                if (_SrchCondModel.Srch_RolesMnt_RoleName.Length > 0) {
+                    if(!ar.Id.ToUpper().Contains(_SrchCondModel.Srch_RolesMnt_RoleName) && !ar.RoleNameJp.ToUpper().Contains(_SrchCondModel.Srch_RolesMnt_RoleName) && !ar.Name.ToUpper().Contains(_SrchCondModel.Srch_RolesMnt_RoleName) && !ar.NormalizedName.Contains(_SrchCondModel.Srch_RolesMnt_RoleName)) {
+                        continue;
+                    }
+                }
+
                 AspNetRolesExt tmp = new AspNetRolesExt(ar);
                 if (MyAspNetUserRoles.Any(x => x.AspNetRoles.Id == tmp.Id)) {
                     tmp.IsInRole = true;

@@ -18,16 +18,14 @@ namespace HinpoIdentityMaintenance.Models.Model {
         #endregion 検索画面条件
 
         #region Roles画面条件
-        public string Srch_RolesMnt_RoleId { get; set; }
-        public string Srch_RolesMnt_RoleNameJp { get; set; }
+        public string Srch_RolesMnt_RoleName { get; set; }
         #endregion Roles画面条件
 
         public SrchCondModel() {
             Srch_Uid = "";
             Srch_Name = "";
             Srch_SelectedUid = "";
-            Srch_RolesMnt_RoleId = "";
-            Srch_RolesMnt_RoleNameJp = "";
+            Srch_RolesMnt_RoleName = "";
         }
     }
 }
