@@ -61,11 +61,18 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
         }
         public IActionResult OnPost() {
             SetMasterData();
+            if (PgModel.SrchCond?.Length > 0) {
+                _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
+            }
             _SrchCondModel.Srch_SelectedUid = PgModel.SelectedUserId ?? "";
             _SrchCondModel.Srch_SiteId = PgModel.SiteId;
             _SrchCondModel.Srch_Uid = PgModel.UserId ?? "";
             _SrchCondModel.Srch_Name = PgModel.UserName ?? "";
+ 
+
             PgModel.SrchCond = JsonSerializer.Serialize<SrchCondModel>(_SrchCondModel, Consts._jsonOptions);
+ 
+            
             switch (PgModel.Instruction){
                 case "srch":
                     PgModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PgModel.SiteId, PgModel.UserId ?? "", PgModel.UserName ?? "").Result;
@@ -74,7 +81,7 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
                     }
                     break;
                 case "back":
-                    return RedirectToAction("Index", "Home");
+                    return RedirectPermanent("/hinpomenu/index");                       // ユーザー選択画面表示
                 case "del":
                     bool rslt =_hinpoIdentityService.DeleteUser(PgModel.SelectedUserId).Result;
                     PgModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PgModel.SiteId, PgModel.UserId ?? "", PgModel.UserName ?? "").Result;

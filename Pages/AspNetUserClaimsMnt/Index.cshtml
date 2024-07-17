@@ -24,6 +24,7 @@
         @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
             @Html.HiddenFor(model => model.PgModel.Instruction)
             <input asp-for="@Model.PgModel.SrchCond" type="hidden" value="@Model.PgModel.SrchCond" />
+            <input asp-for="@Model.PgModel.Lang" type="hidden" value="@Model.PgModel.Lang" />
             <div class="container sckhinpo-panel mt-3">
                 <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
                     <tbody>
@@ -49,8 +50,7 @@
                             <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>言語<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
                             <td class='sckhinpo-w-15'>
                                 <div class='input-group '>
-                                    <select class="form-control" data-val="true" id="PageModel_Lang" name="PageModel.Lang" onchange="buttonEnabled()">
-                                        <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
+                                    <select class="form-control" id="ddLang" name="ddLang" onchange="buttonEnabled();  setLang();">
                                         @if (Model.PgModel.Lang == "Ja") {
                                             <option value="Ja" selected>日本語</option>
                                             <option value="En">English</option>
@@ -95,6 +95,11 @@
 
     function buttonEnabled() {
         $('#@idButtonUpd').prop('disabled', false);
+    }
+    function setLang() {
+        var e = document.getElementById("ddLang");
+        var t = e.options[e.selectedIndex].value;
+        $('#PgModel_Lang').val(t);
     }
 
     function onSubmit(instruction) {

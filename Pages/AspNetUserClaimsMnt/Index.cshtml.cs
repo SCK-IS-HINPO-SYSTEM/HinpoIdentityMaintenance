@@ -47,25 +47,26 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserClaimsMnt {
         public IActionResult OnPost() {
             bool updSts = false;
             SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
+            
             switch (PgModel.Instruction) {
                 case "back":
                     return RedirectToPage("/AspNetUserSearch/Index", new { srchcond = PgModel.SrchCond });
                 case "upd":
-                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(_SrchCondModel.Srch_Uid, "SiteId", PgModel.SiteId.ToString() ).Result;
+                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(_SrchCondModel.Srch_SelectedUid, "SiteId", PgModel.SiteId.ToString() ).Result;
                     if (updSts == false) {
                         throw new Exception("SiteId Update Failed");
                     }
-                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(_SrchCondModel.Srch_Uid, "BusyoId", PgModel.BusyoId.ToString()).Result;
+                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(_SrchCondModel.Srch_SelectedUid, "BusyoId", PgModel.BusyoId.ToString()).Result;
                     if (updSts == false) {
                         throw new Exception("BusyoId Update Failed");
                     }
-                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(_SrchCondModel.Srch_Uid, "Lang", PgModel.Lang).Result;
+                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(_SrchCondModel.Srch_SelectedUid, "Lang", PgModel.Lang).Result;
                     if (updSts == false) {
                         throw new Exception("Language Update Failed");
                     }
                     SetMasterData();
 
-                    return RedirectToPage("/AspNetUserSearch/Index", new { userid = _SrchCondModel.Srch_Uid });
+                    return RedirectToPage("/AspNetUserSearch/Index", new { srchcond = PgModel.SrchCond });
             }
             SetMasterData();
             return Page(); ;

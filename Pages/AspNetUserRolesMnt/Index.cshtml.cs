@@ -22,7 +22,7 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
         public AspNetUserRolesMntPageModel PgModel { get; set; }
 
         public IndexModel(
-            IConfiguration appSettings,
+        IConfiguration appSettings,
             UserManager<ApplicationUser> userMgr,
             SignInManager<ApplicationUser> signInMgr,
             IHttpContextAccessor httpContextAccessor,
@@ -34,12 +34,14 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
             _accessor = httpContextAccessor;
             _masterSvcRead = masterSvcRead;
             _hinpoIdentityService = hinpoIdentityService;
-           // PgModel = new AspNetUserRolesMntPageModel();
+            PgModel = new AspNetUserRolesMntPageModel();
         }
 
         public void OnGet(string srchcond) {
             PgModel = new AspNetUserRolesMntPageModel();
             PgModel.SrchCond = srchcond;
+            SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
+            PgModel.FilterRole = _SrchCondModel.Srch_RolesMnt_RoleName;            
             SetMasterData();
         }
 
@@ -58,7 +60,7 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
 
             switch (PgModel.Instruction) {
                 case "back":
-                    return RedirectToPage("/AspNetUserSearch/Index", new { userid = _SrchCondModel.Srch_SelectedUid });
+                    return RedirectToPage("/AspNetUserSearch/Index", new { srchcond = PgModel.SrchCond });
                 case "srch":
                     break;
                 case "upd":
