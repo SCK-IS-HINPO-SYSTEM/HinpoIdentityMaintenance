@@ -3,6 +3,7 @@ using HinpoIdentityBusinessLayer;
 using HinpoIdentityMaintenance.Common;
 using HinpoIdentityMaintenance.Data;
 using HinpoIdentityMaintenance.Models.Model;
+using HinpoIdentityModels;
 using HinpoMasterBusinessLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

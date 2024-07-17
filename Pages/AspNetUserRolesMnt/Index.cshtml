@@ -71,9 +71,13 @@
                             <!-- 削除チェック -->
                             <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>資格剥奪</th>
                             <!-- Id -->
-                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-300'>Id</th>
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-30'>Id</th>
                             <!-- RoleNameJp -->
-                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-60'>役割</th>
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-30'>役割</th>
+                            <!-- RoleNameJp -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>Group</th>
+                            <!-- RoleNameJp -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>Role</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -101,6 +105,12 @@
                                 </td>
                                 <td class='text-left bg-white  @fontstyle'>
                                     @Model.PgModel.AllAspNetRoles[row].RoleNameJp
+                                </td>
+                                <td class='text-left bg-white  @fontstyle'>
+                                    @Model.PgModel.AllAspNetRoles[row].GroupId
+                                </td>
+                                <td class='text-left bg-white  @fontstyle'>
+                                    @Model.PgModel.AllAspNetRoles[row].RoleId
                                 </td>
                             </tr>
                         }

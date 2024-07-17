@@ -71,6 +71,7 @@ namespace HinpoIdentityMaintenance.Models.Model {
                 }
                 AllAspNetRoles.Add(tmp);
             }
+            AllAspNetRoles = AllAspNetRoles.OrderBy(x => x.ProcessId).ThenBy(x => x.GroupId).ThenBy(x => x.RoleId).ToList();
         }
 
         public AspNetUserRolesMntPageModel() {
