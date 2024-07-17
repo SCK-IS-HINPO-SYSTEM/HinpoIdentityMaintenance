@@ -16,6 +16,8 @@ namespace HinpoIdentityMaintenance.Models.Model {
     public class AspNetUserRolesMntPageModel {
         public List<SelectListItem> m02Sites { get; set; }
         public List<SelectListItem> m04Busyos { get; set; }
+        public List<SelectListItem> processIds { get; set; }
+
         public int SiteId { get; set; }
         public int BusyoId { get; set; }
         public string Lang { get; set; } = default!;
@@ -25,6 +27,8 @@ namespace HinpoIdentityMaintenance.Models.Model {
         public string SrchCond { get; set; } = default!;        
         public string FullName { get; set; } = default!;
         public string FilterRole { get; set; } = default!;
+        public short ProcessId { get; set; } = 0;
+        
         public AspNetUser MyAspNetUser { get; set; } = default!;
         public List<AspNetUserRoles> MyAspNetUserRoles { get; set; } = new List<AspNetUserRoles>();
         public List<AspNetRolesExt> AllAspNetRoles { get; set; } = new List<AspNetRolesExt>();
@@ -46,11 +50,20 @@ namespace HinpoIdentityMaintenance.Models.Model {
             foreach (AspNetRoles ar in ars) {
 
                 _SrchCondModel.Srch_RolesMnt_RoleName = _SrchCondModel.Srch_RolesMnt_RoleName.Trim().ToUpper();
+                bool skipFlg = false;
                 if (_SrchCondModel.Srch_RolesMnt_RoleName.Length > 0) {
                     if(!ar.Id.ToUpper().Contains(_SrchCondModel.Srch_RolesMnt_RoleName) && !ar.RoleNameJp.ToUpper().Contains(_SrchCondModel.Srch_RolesMnt_RoleName) && !ar.Name.ToUpper().Contains(_SrchCondModel.Srch_RolesMnt_RoleName) && !ar.NormalizedName.Contains(_SrchCondModel.Srch_RolesMnt_RoleName)) {
-                        continue;
+                        skipFlg = true;
                     }
                 }
+                
+                if (_SrchCondModel.Srch_ProcessId > 0) {
+                    if (ar.ProcessId != _SrchCondModel.Srch_ProcessId) {
+                        skipFlg = true;
+                    }
+                }
+
+                if (skipFlg) continue;
 
                 AspNetRolesExt tmp = new AspNetRolesExt(ar);
                 if (MyAspNetUserRoles.Any(x => x.AspNetRoles.Id == tmp.Id)) {
@@ -64,6 +77,13 @@ namespace HinpoIdentityMaintenance.Models.Model {
             m02Sites = new List<SelectListItem>();
             m04Busyos = new List<SelectListItem>();
             AllAspNetRoles = new List<AspNetRolesExt>();
+            processIds = new List<SelectListItem>();
+            foreach (eProcessId prcs in Enum.GetValues(typeof(eProcessId))) {
+                SelectListItem item = new SelectListItem();
+                item.Value = ((int)prcs).ToString();
+                item.Text = prcs.ToString();
+                processIds.Add(item);
+            }
             Instruction = "";
             Lang = "";
         }

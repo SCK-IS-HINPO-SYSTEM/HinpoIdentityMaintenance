@@ -19,6 +19,7 @@ namespace HinpoIdentityMaintenance.Models.Model {
 
         #region Roles画面条件
         public string Srch_RolesMnt_RoleName { get; set; }
+        public int Srch_ProcessId { get; set; }
         #endregion Roles画面条件
 
         public SrchCondModel() {

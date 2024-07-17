@@ -56,6 +56,7 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
             // å†å¿ÉtÉBÉãÉ^ÇåüçıèåèÇ…ï€ë∂
             SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
             _SrchCondModel.Srch_RolesMnt_RoleName = PgModel.FilterRole;
+            _SrchCondModel.Srch_ProcessId = PgModel.ProcessId;
             PgModel.SrchCond = JsonSerializer.Serialize(_SrchCondModel, Consts._jsonOptions);
 
             switch (PgModel.Instruction) {

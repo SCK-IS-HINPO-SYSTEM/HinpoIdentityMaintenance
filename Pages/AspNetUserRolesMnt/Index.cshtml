@@ -29,14 +29,24 @@
                             <td class='text-left bg-white align-middle sckhinpo-w-25'>@Model.PgModel.FullName</td>
                         </tr>
                         <tr>
-                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>権限絞り込み</th>
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>権限絞り込み(文字検索)</th>
                             <td class='text-left bg-white align-middle sckhinpo-w-25'>
                                 <div class='input-group '>
                                     <input asp-for="@Model.PgModel.FilterRole" type="text" value="@Model.PgModel.FilterRole" class="form-control" />
                                 </div>
                             </td>
 
-                            <td colspan="2" class='text-center bg-white align-middle sckhinpo-w-25'>
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>権限絞り込み(種別検索)</th>
+                            <td class='text-left bg-white align-middle sckhinpo-w-25'>
+                            <div class='input-group '>
+                                @Html.DropDownListFor(model => model.PgModel.ProcessId, (IEnumerable<SelectListItem>)Model.PgModel.processIds, " 選択してください ", new { @class = "form-control", autocomplete = "off" })
+                            </div>
+                            </td>
+                           
+
+                        </tr>
+                        <tr>
+                            <td colspan="4" class='text-center bg-white align-middle sckhinpo-w-25'>
                                 <button type='submit' class='col-4 btn btn-primary btn-lg' id='@idButtonSrc' onclick="onSubmit('srch');">絞り込み</button>
                             </td>
                         </tr>
@@ -131,4 +141,5 @@
         var frm = document.getElementById("@submitFormname");
         frm.submit();
     }
+    
 </script>
