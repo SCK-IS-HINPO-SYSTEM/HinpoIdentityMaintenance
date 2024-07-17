@@ -4,6 +4,7 @@
 @{
     string submitFormname = "AspNetUserClaimsMntForm";
     string idButtonUpd = "idButtonUpd";
+
 }
 <div class="text-center">
     <!-- コンテンツ本体 -->
@@ -12,8 +13,8 @@
             <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
                 <tbody>
                     <tr>
-                        <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-50'>@Model.PageModel.UserId</th>
-                        <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-50'>@Model.PageModel.MyAspNetUser.LastName @Model.PageModel.MyAspNetUser.FirstName</th>
+                        <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-50'>@ViewData["Srch_SelectedUid"]</th>
+                        <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-50'>@Model.PgModel.MyAspNetUser.LastName @Model.PgModel.MyAspNetUser.FirstName</th>
                     </tr>
                 </tbody>
             </table>
@@ -21,8 +22,8 @@
         
         
         @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
-            @Html.HiddenFor(model => model.PageModel.UserId)
-            @Html.HiddenFor(model => model.PageModel.Instruction)
+            @Html.HiddenFor(model => model.PgModel.Instruction)
+            <input asp-for="@Model.PgModel.SrchCond" type="hidden" value="@Model.PgModel.SrchCond" />
             <div class="container sckhinpo-panel mt-3">
                 <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
                     <tbody>
@@ -31,14 +32,14 @@
                             <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>サイト<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
                             <td class='sckhinpo-w-15'>
                                 <div class='input-group '>
-                                    @Html.DropDownListFor(model => model.PageModel.SiteId, (IEnumerable<SelectListItem>)Model.PageModel.m02Sites, " 選択してください ", new { @class = "form-control", autocomplete = "off", @onchange = "buttonEnabled()" })
+                                    @Html.DropDownListFor(model => model.PgModel.SiteId, (IEnumerable<SelectListItem>)Model.PgModel.m02Sites, " 選択してください ", new { @class = "form-control", autocomplete = "off", @onchange = "buttonEnabled()" })
                                 </div>
                             </td>
                             <!-- 部署 -->
                             <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>カテゴリ<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
                             <td class='sckhinpo-w-15' colspan="2">
                                 <div class='input-group '>
-                                    @Html.DropDownListFor(model => model.PageModel.BusyoId, (IEnumerable<SelectListItem>)Model.PageModel.m04Busyos, " 選択してください ", new { @class = "form-control", autocomplete = "off", @onchange = "buttonEnabled()" })
+                                    @Html.DropDownListFor(model => model.PgModel.BusyoId, (IEnumerable<SelectListItem>)Model.PgModel.m04Busyos, " 選択してください ", new { @class = "form-control", autocomplete = "off", @onchange = "buttonEnabled()" })
                                 </div>
                             </td>
                         </tr>
@@ -50,7 +51,7 @@
                                 <div class='input-group '>
                                     <select class="form-control" data-val="true" id="PageModel_Lang" name="PageModel.Lang" onchange="buttonEnabled()">
                                         <option value="">&#x9078;&#x629E;&#x3057;&#x3066;&#x304F;&#x3060;&#x3055;&#x3044;</option>
-                                        @if (Model.PageModel.Lang == "Ja") {
+                                        @if (Model.PgModel.Lang == "Ja") {
                                             <option value="Ja" selected>日本語</option>
                                             <option value="En">English</option>
                                         } else {
@@ -97,7 +98,7 @@
     }
 
     function onSubmit(instruction) {
-        var ele = document.getElementById("PageModel_Instruction");
+        var ele = document.getElementById("PgModel_Instruction");
         ele.value = instruction;
         var frm = document.getElementById("@submitFormname");
         frm.submit();

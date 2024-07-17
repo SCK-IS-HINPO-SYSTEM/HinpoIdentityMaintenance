@@ -1,12 +1,13 @@
 using DocumentFormat.OpenXml.Spreadsheet;
 using HinpoIdentityBusinessLayer;
+using HinpoIdentityMaintenance.Common;
 using HinpoIdentityMaintenance.Data;
 using HinpoIdentityMaintenance.Models.Model;
 using HinpoMasterBusinessLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
+using System.Text.Json;
 
 namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
     public class IndexModel : PageModel {
@@ -18,7 +19,7 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
         private readonly SignInManager<ApplicationUser> _signInMgr;
 
         [BindProperty]
-        public AspNetUserRolesMntPageModel PageModel { get; set; }
+        public AspNetUserRolesMntPageModel PgModel { get; set; }
 
         public IndexModel(
             IConfiguration appSettings,
@@ -33,41 +34,47 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
             _accessor = httpContextAccessor;
             _masterSvcRead = masterSvcRead;
             _hinpoIdentityService = hinpoIdentityService;
-            PageModel = new AspNetUserRolesMntPageModel();
+            PgModel = new AspNetUserRolesMntPageModel();
         }
 
-        public void OnGet(string userid) {
-            PageModel.UserId = userid;
+        public void OnGet(string srchcond) {
+            PgModel.SrchCond = srchcond;
             SetMasterData();
         }
 
         public IActionResult OnPost() {
-            List<string> modRoles = new List<string>();
-            if (PageModel == null ) {
+            List<string> addRoles = new List<string>();
+            List<string> delRoles = new List<string>();
+            if (PgModel == null ) {
                 SetMasterData();
                 return Page();
             }
-            switch (PageModel.Instruction) {
+            SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
+            switch (PgModel.Instruction) {
                 case "back":
-                    return RedirectToPage("/AspNetUserSearch/Index", new { userid = PageModel.UserId });
+                    return RedirectToPage("/AspNetUserSearch/Index", new { userid = _SrchCondModel.Srch_SelectedUid });
                 case "upd":
-                    for (int row = 0; row < PageModel.AllAspNetRoles.Count; row++) {
-                        if (PageModel.AllAspNetRoles[row].IsChecked) {
-                            modRoles.Add(PageModel.AllAspNetRoles[row].Id);
+                    for (int row = 0; row < PgModel.AllAspNetRoles.Count; row++) {
+                        if (PgModel.AllAspNetRoles[row].IsAddChecked) {
+                            addRoles.Add(PgModel.AllAspNetRoles[row].Id);
+                        }
+                        if (PgModel.AllAspNetRoles[row].IsDelChecked) {
+                            delRoles.Add(PgModel.AllAspNetRoles[row].Id);
                         }
                     }
                     // AspNetRolesの更新。エラー時は中でthrowしているのでupdStsはチェックしなくてよい
-                    bool updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserRoles(PageModel.UserId, modRoles).Result;
+                    bool updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserRoles(_SrchCondModel.Srch_SelectedUid, addRoles, delRoles).Result;
                     SetMasterData();
-                    return RedirectToPage("/AspNetUserSearch/Index", new { userid = PageModel.UserId });
+                    return RedirectToPage("/AspNetUserSearch/Index", new { srchcond = PgModel.SrchCond });
             }
             SetMasterData();
             return Page(); ;
         }
         private void SetMasterData() {
-            PageModel.MyAspNetUser = _hinpoIdentityService.GetAspNetUsers(PageModel.UserId).Result;
-            PageModel.FullName = PageModel.MyAspNetUser.LastName + " " + PageModel.MyAspNetUser.FirstName;
-            PageModel.SetMaster(_masterSvcRead, _hinpoIdentityService);
+            SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
+            PgModel.MyAspNetUser = _hinpoIdentityService.GetAspNetUsers(_SrchCondModel.Srch_SelectedUid).Result;
+            PgModel.FullName = PgModel.MyAspNetUser.LastName + " " + PgModel.MyAspNetUser.FirstName;
+            PgModel.SetMaster(_masterSvcRead, _hinpoIdentityService);
         }
     }
 }

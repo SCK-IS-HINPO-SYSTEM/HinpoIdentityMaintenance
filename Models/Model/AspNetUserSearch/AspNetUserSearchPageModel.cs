@@ -16,8 +16,8 @@ namespace HinpoIdentityMaintenance.Models.Model {
         public int SiteId { get; set; }
         public string UserId { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
-
         public List<HinpoIdentityModels.AspNetUser> AspNetUsers;
+        public string SrchCond { get; set; } = string.Empty;
 
         public AspNetUserSearchPageModel(IHinpoMasterServiceReadOnly masterSvcRead, int mySiteId) {
             m02Sites = DropDownList.GetM02SitesSelectList(masterSvcRead, mySiteId.ToString());

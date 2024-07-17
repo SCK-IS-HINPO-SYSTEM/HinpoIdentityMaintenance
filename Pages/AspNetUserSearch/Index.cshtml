@@ -7,7 +7,8 @@
     const string idButtonBack = "ButtonBack";
     const string idButtonDelete = "ButtonDelete";
     const string idButtonConf = "ButtonConf";
-    const string idButtonAuth = "ButtonAuth";    
+    const string idButtonAuth = "ButtonAuth";
+    string strDisabled = "disabled";
 }
 
 <div class="text-center">
@@ -15,9 +16,10 @@
     <div class="container-fluid clearfix sckhinpo-body">
         @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
             <div class="container sckhinpo-panel mt-3">
-                @Html.HiddenFor(Model => Model.PageModel.SiteId)
-                @Html.HiddenFor(Model => Model.PageModel.SelectedUserId)
-                @Html.HiddenFor(Model => Model.PageModel.Instruction)
+                <input asp-for="@Model.PgModel.SiteId" type="hidden" value="@Model.PgModel.SiteId" />
+                <input asp-for="@Model.PgModel.SelectedUserId" type="hidden" value="@Model.PgModel.SelectedUserId" />
+                <input asp-for="@Model.PgModel.Instruction" type="hidden" value="@Model.PgModel.Instruction" />
+                <input asp-for="@Model.PgModel.SrchCond" type="hidden" value="@Model.PgModel.SrchCond" />
                 <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
                     <tbody>
                         <tr>
@@ -25,14 +27,14 @@
                             <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>サイト<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
                             <td class='sckhinpo-w-15'>
                                 <div class='input-group '>
-                                    @Html.DropDownListFor(model => model.PageModel.SiteId, (IEnumerable<SelectListItem>)Model.PageModel.m02Sites, " 選択してください ", new { @class = "form-control", autocomplete = "off", @onchange = "onChangeSite(this.value)" })
+                                    @Html.DropDownListFor(model => model.PgModel.SiteId, (IEnumerable<SelectListItem>)Model.PgModel.m02Sites, " 選択してください ", new { @class = "form-control", autocomplete = "off", @onchange = "onChangeSite(this.value)" })
                                 </div>
                             </td>
                             <!-- GID -->
                             <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>UserID</th>
                             <td class='sckhinpo-w-15' colspan="2">
                                 <div class='input-group'>
-                                    @Html.TextBoxFor(Model => Model.PageModel.UserId, new { @class = "form-control", @autocomplete = "off" })
+                                    @Html.TextBoxFor(Model => Model.PgModel.UserId, new { @class = "form-control", @autocomplete = "off" })
                                 </div>
                             </td>
                         </tr>
@@ -41,7 +43,7 @@
                             <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>氏名<span class='sckhinpo-hissu-mark'>&nbsp;(*)</span></th>
                             <td class='sckhinpo-w-15'>
                                 <div class='input-group '>
-                                    @Html.TextBoxFor(Model => Model.PageModel.UserName, new { @class = "form-control", @autocomplete = "off" })
+                                    @Html.TextBoxFor(Model => Model.PgModel.UserName, new { @class = "form-control", @autocomplete = "off" })
                                 </div>
                             </td>                            
                             <td colspan="2"></td>     
@@ -71,29 +73,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for(int i = 0; i < Model.PageModel.AspNetUsers.Count; i++){
+                        @for (int i = 0; i < Model.PgModel.AspNetUsers.Count; i++) {
                             <tr class='w-100 sckhinpo-vscroll-tr sckhinpo-lightgray-background sckhinpo-table-inspec-border-down-set'>
                                 <td class='sckhinpo-w-10 sckhinpo-table-th sckhinpo-table-inspec-border-upper-set' style="vertical-align:middle;">
                                     @{
                                         string checkedString = "";
-                                        if (Model.PageModel.AspNetUsers[i].Id == Model.PageModel.SelectedUserId) { 
-                                            checkedString = "checked"; 
+                                        if (Model.PgModel.AspNetUsers[i].Id == Model.PgModel.SelectedUserId) {
+                                            checkedString = "checked";
+                                            strDisabled = "";
                                         }
-                                        string idButtonCandidate = "candidate" + Model.PageModel.AspNetUsers[i].Id;
+                                        string idButtonCandidate = "candidate" + Model.PgModel.AspNetUsers[i].Id;
                                 }
-                                    <input type="radio" id="@idButtonCandidate" name="ButtonCandidate" value="@Model.PageModel.AspNetUsers[i].Id" class="sckhinpo-select-radio" style="width:15px;" @checkedString onclick="onRadioSelect(this.value);" />
+                                    <input type="radio" id="@idButtonCandidate" name="ButtonCandidate" value="@Model.PgModel.AspNetUsers[i].Id" class="sckhinpo-select-radio" style="width:15px;" @checkedString onclick="onRadioSelect(this.value);" />
                             </td>
                                 <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
-                                    @Model.PageModel.AspNetUsers[i].Id
+                                    @Model.PgModel.AspNetUsers[i].Id
                                 </td>
                                 <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
                                     @{
-                                        string nm = Model.PageModel.AspNetUsers[i].LastName + " " + Model.PageModel.AspNetUsers[i].FirstName;
+                                        string nm = Model.PgModel.AspNetUsers[i].LastName + " " + Model.PgModel.AspNetUsers[i].FirstName;
                                     }
                                     @nm
                                 </td>
                             <td class='sckhinpo-w-10 sckhinpo-table-inspec-border-upper-set text-center align-middle'>
-                                @Model.PageModel.AspNetUsers[i].Email
+                                @Model.PgModel.AspNetUsers[i].Email
                             </td>
                                
                         </tr>
@@ -112,11 +115,11 @@
                             <button type="button" id="@idButtonBack" name="@idButtonBack" class="col-3 btn btn-secondary btn-lg back-btn" onclick="onSubmit('back');">戻る</button>
                         </td>
                         <td class="sckhinpo-w-50 sckhinpo-text-right">
-                            <button type='button' id="@idButtonDelete" name="@idButtonDelete" class='col-3 btn btn-danger btn-lg' disabled onclick="onSubmit('del');">利用停止</button>
+                            <button type='button' id="@idButtonDelete" name="@idButtonDelete" class='col-3 btn btn-danger btn-lg' @strDisabled onclick="onSubmit('del');">利用停止</button>
                             &nbsp;
-                            <button type='button' id="@idButtonConf" name="@idButtonConf" class='col-3 btn btn-primary btn-lg' disabled onclick="onSubmit('conf');">属性確認</button>
+                            <button type='button' id="@idButtonConf" name="@idButtonConf" class='col-3 btn btn-primary btn-lg' @strDisabled onclick="onSubmit('conf');">属性確認</button>
                             &nbsp;
-                            <button type='button' id="@idButtonAuth" name="@idButtonAuth" class='col-3 btn btn-primary btn-lg' disabled onclick="onSubmit('auth');">権限確認</button>
+                            <button type='button' id="@idButtonAuth" name="@idButtonAuth" class='col-3 btn btn-primary btn-lg' @strDisabled onclick="onSubmit('auth');">権限確認</button>
                         </td>
                     </tr>
                 </table>
@@ -130,12 +133,12 @@
     });
 
     function onChangeSite(siteid){
-        var tgt = document.getElementById("PageModel_SiteId");
+        var tgt = document.getElementById("PgModell_SiteId");
         tgt.value = siteid;
     }
 
     function onRadioSelect(userid) {
-        var ele = document.getElementById("PageModel_SelectedUserId");
+        var ele = document.getElementById("PgModel_SelectedUserId");
         ele.value = userid;
         $('#@idButtonDelete').prop('disabled', false);
         $('#@idButtonConf').prop('disabled', false);
@@ -143,7 +146,7 @@
     }
 
     function onSubmit(instruction){
-        var ele = document.getElementById("PageModel_Instruction");
+        var ele = document.getElementById("PgModel_Instruction");
         ele.value = instruction;
         if (instruction == 'del') {
             var result = window.confirm('このユーザーを利用停止にします。\r\nよろしいですか？\r\n\r\n利用再開の場合はログイン画面の\r\n\'Resend email confirmation\'リンクより再承認依頼してください');

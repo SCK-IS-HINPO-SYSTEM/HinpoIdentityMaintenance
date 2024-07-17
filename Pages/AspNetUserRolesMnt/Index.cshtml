@@ -4,6 +4,7 @@
 @{
     string submitFormname = "AspNetUserRolesMntForm";
     string idButtonUpd = "idButtonUpd";
+    string fontstyle = "";
 }
 <div class="text-center">
     <!-- コンテンツ本体 -->
@@ -14,10 +15,10 @@
                     <tr>
                         <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>UserId</th>
                         <td class='text-left bg-white align-middle sckhinpo-w-25'>
-                            @Model.PageModel.MyAspNetUser.Id
+                            @Model.PgModel.MyAspNetUser.Id
                         </td>
                         <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-25'>氏名</th>
-                        <td class='text-left bg-white align-middle sckhinpo-w-25'>@Model.PageModel.FullName</td>
+                        <td class='text-left bg-white align-middle sckhinpo-w-25'>@Model.PgModel.FullName</td>
                     </tr>
                 </tbody>
             </table>
@@ -25,15 +26,17 @@
 
 
         @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
-            @Html.HiddenFor(model => model.PageModel.UserId)
-            @Html.HiddenFor(model => model.PageModel.Instruction)
-            @Html.HiddenFor(model => model.PageModel.SelectedAspNetRolesId)
+            @Html.HiddenFor(model => model.PgModel.Instruction)
+            @Html.HiddenFor(model => model.PgModel.SelectedAspNetRolesId)
+            <input asp-for="@Model.PgModel.SrchCond" type="hidden" value="@Model.PgModel.SrchCond" />
             <div class="container sckhinpo-panel mt-3">
                 <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
                     <thead>
                         <tr>
-                            <!-- チェック -->
-                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'></th>
+                            <!-- 追加チェック -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>資格付与</th>
+                            <!-- 削除チェック -->
+                            <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-10'>資格剥奪</th>
                             <!-- Id -->
                             <th class='text-center align-middle sckhinpo-table-th sckhinpo-w-300'>Id</th>
                             <!-- RoleNameJp -->
@@ -41,40 +44,32 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (int row = 0; row < Model.PageModel.AllAspNetRoles.Count; row++) {
+                        @for (int row = 0; row < Model.PgModel.AllAspNetRoles.Count; row++) {
+                            @Html.HiddenFor(model => model.PgModel.AllAspNetRoles[row].Id)
                             <tr>
                                 <td class='text-center bg-white'>
-                                    @Html.CheckBoxFor(Model => Model.PageModel.AllAspNetRoles[row].IsChecked, new { @onclick = "radioChecked('" + @Model.PageModel.AllAspNetRoles[row].Id + "')" })
-                                    @Html.HiddenFor(model => model.PageModel.AllAspNetRoles[row].Id)
+                                    @if (Model.PgModel.AllAspNetRoles[row].IsInRole == false) {
+                                        @Html.CheckBoxFor(Model => Model.PgModel.AllAspNetRoles[row].IsAddChecked, new { @onclick = "radioChecked('" + @Model.PgModel.AllAspNetRoles[row].Id + "')" })
+                                        ;
+                                    }
                                 </td>
-                                <td class='text-left bg-white'>
-                                    @Model.PageModel.AllAspNetRoles[row].Id
+                                <td class='text-center bg-white'>
+                                    @if (Model.PgModel.AllAspNetRoles[row].IsInRole == true) {
+                                        @Html.CheckBoxFor(Model => Model.PgModel.AllAspNetRoles[row].IsDelChecked, new { @onclick = "radioChecked('" + @Model.PgModel.AllAspNetRoles[row].Id + "')" })
+                                        ;
+                                    }
                                 </td>
-                                <td class='text-left bg-white'>
-                                    @Model.PageModel.AllAspNetRoles[row].RoleNameJp
+                                @if (Model.PgModel.AllAspNetRoles[row].IsInRole == true) {
+                                    fontstyle = "text-primary";
+                                } else {
+                                    fontstyle = "";
+                                }
+                                <td class='text-left bg-white @fontstyle'>
+                                    @Model.PgModel.AllAspNetRoles[row].Id
                                 </td>
-
-                               @*  <div style="display: none;">
-                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].Id)
-                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].ProcessId)
-                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].GroupId)
-                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].RoleId)
-                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].RoleNameJp)
-                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].Name)
-                                    @Html.EditorFor(model => model.PageModel.AllAspNetRoles[row].NormalizedName)
-                                </div> *@
-
-                @*                 <input name="PageModel.AllAspNetRoles[@row].Id" type="hidden" value="@Model.PageModel.AllAspNetRoles[row].Id" />
-
-                                <div style="display: none;">@Html.EditorFor(model => model.MyList)</div>
-                                <input data-val="true" data-val-required="The ProcessId field is required." id="PageModel_AllAspNetRoles_1__ProcessId" name="PageModel.AllAspNetRoles[1].ProcessId" type="hidden" value="102" />
-                                <input data-val="true" data-val-required="The GroupId field is required." id="PageModel_AllAspNetRoles_1__GroupId" name="PageModel.AllAspNetRoles[1].GroupId" type="hidden" value="2" />
-                                <input data-val="true" data-val-required="The RoleId field is required." id="PageModel_AllAspNetRoles_1__RoleId" name="PageModel.AllAspNetRoles[1].RoleId" type="hidden" value="3" />
-                                <input data-val="true" data-val-required="The RoleNameJp field is required." id="PageModel_AllAspNetRoles_1__RoleNameJp" name="PageModel.AllAspNetRoles[1].RoleNameJp" type="hidden" value="&#x627F;&#x8A8D;" />
-                                <input data-val="true" data-val-required="The Name field is required." id="PageModel_AllAspNetRoles_1__Name" name="PageModel.AllAspNetRoles[1].Name" type="hidden" value="Def_Rep_AApprove" />
-                                <input data-val="true" data-val-required="The NormalizedName field is required." id="PageModel_AllAspNetRoles_1__NormalizedName" name="PageModel.AllAspNetRoles[1].NormalizedName" type="hidden" value="DEF_REP_AAPPROVE" />
- *@
-            
+                                <td class='text-left bg-white  @fontstyle'>
+                                    @Model.PgModel.AllAspNetRoles[row].RoleNameJp
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -109,7 +104,7 @@
     }
 
     function onSubmit(instruction) {
-        var ele = document.getElementById("PageModel_Instruction");
+        var ele = document.getElementById("PgModel_Instruction");
         ele.value = instruction;
         var frm = document.getElementById("@submitFormname");
         frm.submit();

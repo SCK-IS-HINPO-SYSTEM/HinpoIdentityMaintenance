@@ -1,11 +1,13 @@
 using DocumentFormat.OpenXml.Spreadsheet;
 using HinpoIdentityBusinessLayer;
+using HinpoIdentityMaintenance.Common;
 using HinpoIdentityMaintenance.Data;
 using HinpoIdentityMaintenance.Models.Model;
 using HinpoMasterBusinessLayer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Text.Json;
 
 namespace HinpoIdentityMaintenance.Pages.AspNetUserClaimsMnt {
     public class IndexModel : PageModel {
@@ -15,9 +17,9 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserClaimsMnt {
         private readonly IHttpContextAccessor _accessor;
         private readonly UserManager<ApplicationUser> _userMgr;
         private readonly SignInManager<ApplicationUser> _signInMgr;
-
+ 
         [BindProperty]
-        public AspNetUserClaimsMntPageModel PageModel { get; set; }
+        public AspNetUserClaimsMntPageModel PgModel { get; set; }
 
         public IndexModel(
             IConfiguration appSettings,
@@ -32,42 +34,48 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserClaimsMnt {
             _accessor = httpContextAccessor;
             _masterSvcRead = masterSvcRead;
             _hinpoIdentityService = hinpoIdentityService;
-            PageModel = new AspNetUserClaimsMntPageModel();
+            PgModel = new AspNetUserClaimsMntPageModel();
         }
 
-        public void OnGet(string userid) {
-            PageModel.UserId = userid;
+        public void OnGet(string srchcond) {
+            PgModel.SrchCond = srchcond;
+            SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
             SetMasterData();
+            ViewData["Srch_SelectedUid"] = _SrchCondModel.Srch_SelectedUid;
         }
 
         public IActionResult OnPost() {
             bool updSts = false;
-            switch (PageModel.Instruction) {
+            SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
+            switch (PgModel.Instruction) {
                 case "back":
-                    return RedirectToPage("/AspNetUserSearch/Index", new { userid = PageModel.UserId });
+                    return RedirectToPage("/AspNetUserSearch/Index", new { srchcond = PgModel.SrchCond });
                 case "upd":
-                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(PageModel.UserId, "SiteId", PageModel.SiteId.ToString() ).Result;
+                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(_SrchCondModel.Srch_Uid, "SiteId", PgModel.SiteId.ToString() ).Result;
                     if (updSts == false) {
                         throw new Exception("SiteId Update Failed");
                     }
-                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(PageModel.UserId, "BusyoId", PageModel.BusyoId.ToString()).Result;
+                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(_SrchCondModel.Srch_Uid, "BusyoId", PgModel.BusyoId.ToString()).Result;
                     if (updSts == false) {
                         throw new Exception("BusyoId Update Failed");
                     }
-                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(PageModel.UserId, "Lang", PageModel.Lang).Result;
+                    updSts = _hinpoIdentityService.InsertOrUpdateAspNetUserClaims(_SrchCondModel.Srch_Uid, "Lang", PgModel.Lang).Result;
                     if (updSts == false) {
                         throw new Exception("Language Update Failed");
                     }
                     SetMasterData();
 
-                    return RedirectToPage("/AspNetUserSearch/Index", new { userid = PageModel.UserId });
+                    return RedirectToPage("/AspNetUserSearch/Index", new { userid = _SrchCondModel.Srch_Uid });
             }
             SetMasterData();
             return Page(); ;
         }
         private void SetMasterData() {
-            PageModel.MyAspNetUser = _hinpoIdentityService.GetAspNetUsers(PageModel.UserId).Result;
-            PageModel.SetMaster(_masterSvcRead, _hinpoIdentityService);
+            if (PgModel.SrchCond?.Length > 0) {
+                SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
+                PgModel.MyAspNetUser = _hinpoIdentityService.GetAspNetUsers(_SrchCondModel.Srch_SelectedUid).Result;
+            }
+            PgModel.SetMaster(_masterSvcRead, _hinpoIdentityService);
         }
     }
 }
