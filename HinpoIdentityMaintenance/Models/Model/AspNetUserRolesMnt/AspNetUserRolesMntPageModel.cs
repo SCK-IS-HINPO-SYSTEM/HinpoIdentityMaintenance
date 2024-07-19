@@ -57,7 +57,7 @@ namespace HinpoIdentityMaintenance.Models.Model {
                     }
                 }
                 
-                if (_SrchCondModel.Srch_ProcessId > 0) {
+                if (_SrchCondModel.Srch_ProcessId >= 0) {
                     if (ar.ProcessId != _SrchCondModel.Srch_ProcessId) {
                         skipFlg = true;
                     }

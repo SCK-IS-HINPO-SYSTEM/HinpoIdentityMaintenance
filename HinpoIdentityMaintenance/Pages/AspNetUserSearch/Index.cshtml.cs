@@ -81,7 +81,7 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
                     }
                     break;
                 case "back":
-                    return RedirectPermanent("/hinpomenu/index");                       // ユーザー選択画面表示
+                    return RedirectPermanent("/");
                 case "del":
                     bool rslt =_hinpoIdentityService.DeleteUser(PgModel.SelectedUserId).Result;
                     PgModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PgModel.SiteId, PgModel.UserId ?? "", PgModel.UserName ?? "").Result;

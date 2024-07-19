@@ -95,6 +95,12 @@ namespace HinpoIdentityMaintenance {
 
             bool langFlag = false;// false:ja true:en
             AspNetUserClaim uc = user.AspNetUserClaims.FirstOrDefault(x => x.ClaimType.Equals("Lang", StringComparison.OrdinalIgnoreCase));
+            if(uc == null) {    // 登録したてのユーザーの場合はClaimがないのでデフォルト値を設定
+                uc = new AspNetUserClaim() {
+                    ClaimType = "Lang",
+                    ClaimValue = "Ja"
+                };
+            }
             string lang = uc.ClaimValue;
             if (!string.IsNullOrEmpty(lang)) {
                 langFlag = lang.Equals("En", StringComparison.OrdinalIgnoreCase) ? true : false;
@@ -105,11 +111,23 @@ namespace HinpoIdentityMaintenance {
 
             int siteid = -1;
             uc = user.AspNetUserClaims.FirstOrDefault(x => x.ClaimType.Equals("SiteId", StringComparison.OrdinalIgnoreCase));
+            if(uc == null) {    // 登録したてのユーザーの場合はClaimがないのでデフォルト値を設定
+                uc = new AspNetUserClaim() {
+                    ClaimType = "SiteId",
+                    ClaimValue = "1"
+                };
+            }
             Int32.TryParse(uc.ClaimValue.ToString(), out siteid);
             M02Site m02 = _masterSvcRead.GetM02Site(siteid).Result;
 
             int busyoid = -1;
             uc = user.AspNetUserClaims.FirstOrDefault(x => x.ClaimType.Equals("BusyoId", StringComparison.OrdinalIgnoreCase));
+            if(uc == null) {    // 登録したてのユーザーの場合はClaimがないのでデフォルト値を設定
+                uc = new AspNetUserClaim() {
+                    ClaimType = "BusyoId",
+                    ClaimValue = "1"
+                };
+            }
             Int32.TryParse(uc.ClaimValue.ToString(), out busyoid);
             M04Busyo m04 = _masterSvcRead.GetM04Busyo(busyoid).Result;
 

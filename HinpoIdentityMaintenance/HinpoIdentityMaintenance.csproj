@@ -24,6 +24,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Partial\**" />
+    <Content Remove="Pages\Partial\**" />
+    <EmbeddedResource Remove="Pages\Partial\**" />
+    <None Remove="Pages\Partial\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
     <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.rtl.css.map" />
@@ -114,7 +121,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Partial\" />
     <Folder Include="Pages\Shared\Components\" />
   </ItemGroup>
 
