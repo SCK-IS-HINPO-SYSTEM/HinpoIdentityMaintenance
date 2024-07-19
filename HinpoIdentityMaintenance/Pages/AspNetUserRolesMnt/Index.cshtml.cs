@@ -11,6 +11,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 
 namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
+    /// <summary>
+    /// 権限御画面のコードビハインド
+    /// </summary>
     public class IndexModel : PageModel {
         private readonly IConfiguration _appSettings;
         private readonly IHinpoMasterServiceReadOnly _masterSvcRead;
@@ -22,6 +25,15 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
         [BindProperty]
         public AspNetUserRolesMntPageModel PgModel { get; set; }
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="appSettings"></param>
+        /// <param name="userMgr"></param>
+        /// <param name="signInMgr"></param>
+        /// <param name="httpContextAccessor"></param>
+        /// <param name="masterSvcRead"></param>
+        /// <param name="hinpoIdentityService"></param>
         public IndexModel(
         IConfiguration appSettings,
             UserManager<ApplicationUser> userMgr,
@@ -38,6 +50,10 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
             PgModel = new AspNetUserRolesMntPageModel();
         }
 
+        /// <summary>
+        /// 初期表示
+        /// </summary>
+        /// <param name="srchcond"></param>
         public void OnGet(string srchcond) {
             PgModel = new AspNetUserRolesMntPageModel();
             PgModel.SrchCond = srchcond;
@@ -46,6 +62,10 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
             SetMasterData();
         }
 
+        /// <summary>
+        /// 権限編集処理
+        /// </summary>
+        /// <returns></returns>
         public IActionResult OnPost() {
             List<string> addRoles = new List<string>();
             List<string> delRoles = new List<string>();
@@ -82,6 +102,10 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserRolesMnt {
             SetMasterData();
             return Page();
         }
+
+        /// <summary>
+        /// 表示用マスタデータをセット
+        /// </summary>
         private void SetMasterData() {
             SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
             PgModel.MyAspNetUser = _hinpoIdentityService.GetAspNetUsers(_SrchCondModel.Srch_SelectedUid).Result;

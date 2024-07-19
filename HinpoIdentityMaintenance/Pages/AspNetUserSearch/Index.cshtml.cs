@@ -13,6 +13,9 @@ using System.Text.Json;
 using WorkFlowModels;
 
 namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
+    /// <summary>
+    /// ユーザー検索選択画面
+    /// </summary>
     public class IndexModel : PageModel {
         private readonly IConfiguration _appSettings;
         private readonly IHinpoMasterServiceReadOnly _masterSvcRead;
@@ -23,6 +26,16 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
         private SrchCondModel _SrchCondModel;
         [BindProperty]
         public AspNetUserSearchPageModel PgModel { get; set; }
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="appSettings"></param>
+        /// <param name="userMgr"></param>
+        /// <param name="signInMgr"></param>
+        /// <param name="httpContextAccessor"></param>
+        /// <param name="masterSvcRead"></param>
+        /// <param name="hinpoIdentityService"></param>
         public IndexModel(
             IConfiguration appSettings,
             UserManager<ApplicationUser> userMgr,
@@ -40,6 +53,10 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
             _SrchCondModel = new SrchCondModel();
         }
 
+        /// <summary>
+        /// 初期表示
+        /// </summary>
+        /// <param name="srchcond"></param>
         public void OnGet(string srchcond) {
             PgModel.SrchCond = srchcond;
             if (PgModel.SrchCond?.Length > 0) {
@@ -59,6 +76,11 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
                 }
             }
         }
+
+        /// <summary>
+        /// ユーザ検索編集の処理
+        /// </summary>
+        /// <returns></returns>
         public IActionResult OnPost() {
             SetMasterData();
             if (PgModel.SrchCond?.Length > 0) {
@@ -81,7 +103,7 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
                     }
                     break;
                 case "back":
-                    return RedirectPermanent("/");
+                    return RedirectPermanent("/hinpomenu");
                 case "del":
                     bool rslt =_hinpoIdentityService.DeleteUser(PgModel.SelectedUserId).Result;
                     PgModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PgModel.SiteId, PgModel.UserId ?? "", PgModel.UserName ?? "").Result;
@@ -94,6 +116,9 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
             return Page(); ;
         }
 
+        /// <summary>
+        /// 表示用マスタデータを設定する
+        /// </summary>
         private void SetMasterData() {
             int mySiteId = 0;
             if (PgModel.SiteId <= 0) {

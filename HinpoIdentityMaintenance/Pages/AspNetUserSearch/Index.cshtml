@@ -16,7 +16,7 @@
     <div class="container-fluid clearfix sckhinpo-body">
         @using (Html.BeginForm(FormMethod.Post, new { id = @submitFormname })) {
             <div class="container sckhinpo-panel mt-3">
-                <input asp-for="@Model.PgModel.SiteId" type="hidden" value="@Model.PgModel.SiteId" />
+                
                 <input asp-for="@Model.PgModel.SelectedUserId" type="hidden" value="@Model.PgModel.SelectedUserId" />
                 <input asp-for="@Model.PgModel.Instruction" type="hidden" value="@Model.PgModel.Instruction" />
                 <input asp-for="@Model.PgModel.SrchCond" type="hidden" value="@Model.PgModel.SrchCond" />

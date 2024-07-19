@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 
 namespace HinpoIdentityMaintenance.Pages.AspNetUserClaimsMnt {
+    /// <summary>
+    /// ユーザー属性メンテナンス画面のコードビハインド
+    /// </summary>
     public class IndexModel : PageModel {
         private readonly IConfiguration _appSettings;
         private readonly IHinpoMasterServiceReadOnly _masterSvcRead;
@@ -21,6 +24,15 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserClaimsMnt {
         [BindProperty]
         public AspNetUserClaimsMntPageModel PgModel { get; set; }
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="appSettings"></param>
+        /// <param name="userMgr"></param>
+        /// <param name="signInMgr"></param>
+        /// <param name="httpContextAccessor"></param>
+        /// <param name="masterSvcRead"></param>
+        /// <param name="hinpoIdentityService"></param>
         public IndexModel(
             IConfiguration appSettings,
             UserManager<ApplicationUser> userMgr,
@@ -37,6 +49,10 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserClaimsMnt {
             PgModel = new AspNetUserClaimsMntPageModel();
         }
 
+        /// <summary>
+        /// 初期表示
+        /// </summary>
+        /// <param name="srchcond"></param>
         public void OnGet(string srchcond) {
             PgModel.SrchCond = srchcond;
             SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
@@ -44,6 +60,11 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserClaimsMnt {
             ViewData["Srch_SelectedUid"] = _SrchCondModel.Srch_SelectedUid;
         }
 
+        /// <summary>
+        /// 属性編集
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public IActionResult OnPost() {
             bool updSts = false;
             SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();
@@ -71,6 +92,10 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserClaimsMnt {
             SetMasterData();
             return Page(); ;
         }
+
+        /// <summary>
+        /// 表示用マスタデータの設定
+        /// </summary>
         private void SetMasterData() {
             if (PgModel.SrchCond?.Length > 0) {
                 SrchCondModel _SrchCondModel = JsonSerializer.Deserialize<SrchCondModel>(PgModel.SrchCond, Consts._jsonOptions) ?? new SrchCondModel();

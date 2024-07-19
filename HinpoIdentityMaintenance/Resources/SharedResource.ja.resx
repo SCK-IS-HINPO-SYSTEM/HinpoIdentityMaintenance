@@ -123,4 +123,7 @@
   <data name="AspNetUserRolesMnt" xml:space="preserve">
     <value>ユーザーロールメンテ</value>
   </data>
+  <data name="Msg_Confirm_BackToMenu" xml:space="preserve">
+    <value>メニューへ戻ります。よろしいですか？</value>
+  </data>
 </root>
