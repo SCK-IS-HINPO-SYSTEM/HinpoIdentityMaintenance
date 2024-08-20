@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using static CommonLibrary.Enum;
+using static CommonLibrary.CommonFunctions;
 
 namespace HinpoIdentityMaintenance.Models.Model {
     /// <summary>
@@ -82,7 +83,8 @@ namespace HinpoIdentityMaintenance.Models.Model {
             foreach (eProcessId prcs in Enum.GetValues(typeof(eProcessId))) {
                 SelectListItem item = new SelectListItem();
                 item.Value = ((int)prcs).ToString();
-                item.Text = prcs.ToString();
+                //item.Text = prcs.ToString();
+                item.Text = CommonLibrary.CommonFunctions.GetDescription((CommonLibrary.Enum.eProcessId)prcs);
                 processIds.Add(item);
             }
             Instruction = "";
