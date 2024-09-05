@@ -20,6 +20,8 @@
                 <input asp-for="@Model.PgModel.SelectedUserId" type="hidden" value="@Model.PgModel.SelectedUserId" />
                 <input asp-for="@Model.PgModel.Instruction" type="hidden" value="@Model.PgModel.Instruction" />
                 <input asp-for="@Model.PgModel.SrchCond" type="hidden" value="@Model.PgModel.SrchCond" />
+                <input asp-for="@Model.PgModel.AllSitesFlg" type="hidden" value="@Model.PgModel.AllSitesFlg" />
+
                 <table class='table table-bordered table-primary table-sm sckhinpo-margin-bottom-half sckhinpo-bottom-space-none'>
                     <tbody>
                         <tr>
@@ -133,6 +135,12 @@
     });
 
     function onChangeSite(siteid){
+        var tgtAllSitesFlg = document.getElementById("PgModel_AllSitesFlg");
+        tgtAllSitesFlg.value = false;
+        if (!siteid) {
+            tgtAllSitesFlg.value = true;
+        }
+        //alert(siteid);
         var tgt = document.getElementById("PgModell_SiteId");
         tgt.value = siteid;
     }

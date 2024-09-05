@@ -90,11 +90,11 @@ namespace HinpoIdentityMaintenance.Pages.AspNetUserSearch {
             _SrchCondModel.Srch_SiteId = PgModel.SiteId;
             _SrchCondModel.Srch_Uid = PgModel.UserId ?? "";
             _SrchCondModel.Srch_Name = PgModel.UserName ?? "";
- 
-
             PgModel.SrchCond = JsonSerializer.Serialize<SrchCondModel>(_SrchCondModel, Consts._jsonOptions);
- 
-            
+            if (PgModel.AllSitesFlg) {  // サイト指定無しの場合
+                PgModel.SiteId = 0;
+            }
+
             switch (PgModel.Instruction){
                 case "srch":
                     PgModel.AspNetUsers = _hinpoIdentityService.GetAspNetUsersAmbiguous(PgModel.SiteId, PgModel.UserId ?? "", PgModel.UserName ?? "").Result;

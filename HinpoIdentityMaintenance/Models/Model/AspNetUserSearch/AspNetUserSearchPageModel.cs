@@ -13,6 +13,7 @@ namespace HinpoIdentityMaintenance.Models.Model {
         public string SelectedUserId { get; set; } = string.Empty;
         public string Instruction { get; set; } = string.Empty;        
         public List<SelectListItem> m02Sites { get; set; }
+        public bool AllSitesFlg { get; set; } = false;
         public int SiteId { get; set; }
         public string UserId { get; set; } = string.Empty;
         public string UserName { get; set; } = string.Empty;
