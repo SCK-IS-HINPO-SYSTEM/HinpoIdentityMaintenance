@@ -74,6 +74,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="ClosedXML" Version="0.102.2" />
     <PackageReference Include="MailKit" Version="4.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.0" />
@@ -112,8 +113,14 @@
     <Reference Include="HinpoMasterModels">
       <HintPath>..\..\..\HinpoLib\HinpoMaster\HinpoMasterModels\bin\Debug\net8.0\HinpoMasterModels.dll</HintPath>
     </Reference>
+    <Reference Include="LoggerService">
+      <HintPath>..\..\HinpoWorkFlow\LoggerService\bin\Debug\net8.0\LoggerService.dll</HintPath>
+    </Reference>
     <Reference Include="MailLogBusinessLayer">
       <HintPath>..\..\..\HinpoLib\HinpoMailLog\MailLogBusinessLayer\bin\Debug\net8.0\MailLogBusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="WorkFlowBusinessLayer">
+      <HintPath>..\..\HinpoWorkFlow\WorkFlowDbAccess\WorkFlowBusinessLayer\bin\Debug\net8.0\WorkFlowBusinessLayer.dll</HintPath>
     </Reference>
     <Reference Include="WorkFlowModels">
       <HintPath>..\..\HinpoWorkFlow\WorkFlowDbAccess\WorkFlowModels\bin\Debug\net8.0\WorkFlowModels.dll</HintPath>

@@ -1,4 +1,5 @@
 using CommonSendMail;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using HinpoCertBusinessLayer;
 using HinpoIdentityBusinessLayer;
 using HinpoIdentityMaintenance;
@@ -20,6 +21,9 @@ using Microsoft.Extensions.Localization;
 using NLog.Web;
 using System.Globalization;
 using System.Reflection;
+using WorkFlowBusinessLayer;
+using LoggerService;
+
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
 var builder = WebApplication.CreateBuilder(args);
@@ -112,6 +116,10 @@ builder.Services.AddScoped<IHinpoIdentityService, HinpoIdentityServiceReadAndWri
 builder.Services.AddScoped<HinpoIdentityMaintenanceMiddleware>();
 builder.Services.Configure<AppSettingsModel>(
     builder.Configuration.GetSection("NetWorkInfo"));
+//builder.Services.AddScoped<IWorkFlowService, WorkFlowServiceReadAndWrite>();
+builder.Services.AddSingleton<ILoggerManager, LoggerManager>();
+builder.Services.AddScoped<IWorkFlowService, WorkFlowServiceReadAndWrite>();
+
 
 #region  検証メッセージローカライズで使用
 #pragma warning disable ASP0000
